@@ -20,9 +20,9 @@
     <tr>
       <th>順位</th>
       <th>プレイヤー名</th>
+      <th>プレステージ</th>
       <th>レベル</th>
       <th>攻撃力</th>
-      <th>プレステージ</th>
     </tr>
   </thead>
   <tbody></tbody>
@@ -34,26 +34,27 @@ fetch("players.json")
   .then(players => {
     const entries = Object.entries(players);
 
+    // 🔥 ソート優先順位
+    // 1. プレステージ → 2. レベル → 3. 攻撃力
     const sorted = entries.sort((a, b) =>
+      (b[1].prestigeCount || 0) - (a[1].prestigeCount || 0) ||
       b[1].level - a[1].level ||
-      b[1].attack - a[1].attack ||
-      (b[1].prestigeCount || 0) - (a[1].prestigeCount || 0)
+      b[1].attack - a[1].attack
     );
 
     const tbody = document.querySelector("#rankingTable tbody");
 
     sorted.forEach((entry, index) => {
       const [name, data] = entry;
-
-      const prestige = data.prestigeCount ?? 0; // ← 修正ポイント
+      const prestige = data.prestigeCount ?? 0;
 
       const row = `
         <tr>
           <td>${index + 1}</td>
           <td>${name}</td>
+          <td>${prestige}</td>
           <td>${data.level}</td>
           <td>${data.attack}</td>
-          <td>${prestige}</td>
         </tr>
       `;
 
