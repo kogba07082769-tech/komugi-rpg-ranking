@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Twitch RPG ランキング</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background:#111; color:#fff; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border-bottom: 1px solid #444; padding: 8px; text-align: left; }
+    th { background: #222; }
+  </style>
+</head>
+<body>
+
+<h1>🏆 Twitch RPG ランキング</h1>
+<p>players.json を読み込んでランキングを表示します。</p>
+
+<table id="rankingTable">
+  <thead>
+    <tr>
+      <th>順位</th>
+      <th>プレイヤー名</th>
+      <th>レベル</th>
+      <th>攻撃力</th>
+      <th>プレステージ</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+fetch("players.json")
+  .then(res => res.json())
+  .then(players => {
+    const entries = Object.entries(players);
+
+    // レベル → 攻撃力 → プレステージ の順で並べる
+    const sorted = entries.sort((a, b) =>
+      b[1].level - a[1].level ||
+      b[1].attack - a[1].attack ||
+      b[1].prestige - a[1].prestige
+    );
+
+    const tbody = document.querySelector("#rankingTable tbody");
+
+    sorted.forEach((entry, index) => {
+      const [name, data] = entry;
+
+      const row = `
+        <tr>
+          <td>${index + 1}</td>
+          <td>${name}</td>
+          <td>${data.level}</td>
+          <td>${data.attack}</td>
+          <td>${data.prestige}</td>
+        </tr>
+      `;
+
+      tbody.innerHTML += row;
+    });
+  })
+  .catch(err => {
+    document.body.innerHTML += "<p style='color:red'>players.json が見つかりません</p>";
+  });
+</script>
+
+</body>
+</html>
