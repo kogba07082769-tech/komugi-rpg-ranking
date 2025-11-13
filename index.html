@@ -107,27 +107,30 @@ fetch("players.json")
     const tbody = document.querySelector("#rankingTable tbody");
 
     sorted.forEach((entry, index) => {
-      const [name, data] = entry;
-      const prestige = data.prestigeCount ?? 0;
+  const [name, data] = entry;
+  const prestige = data.prestigeCount ?? 0;
 
-      // トップ3にクラス付与
-      const rankClass =
-        index === 0 ? "rank-1" :
-        index === 1 ? "rank-2" :
-        index === 2 ? "rank-3" : "";
+  // トップ3にクラス付与
+  const rankClass =
+    index === 0 ? "rank-1" :
+    index === 1 ? "rank-2" :
+    index === 2 ? "rank-3" : "";
 
-      const row = `
-        <tr class="${rankClass}">
-          <td>${index + 1}</td>
-          <td>👑 ${name}</td>
-          <td>${prestige}</td>
-          <td>${data.level}</td>
-          <td>${data.attack}</td>
-        </tr>
-      `;
+  // 👑 上位10人だけ王冠
+  const crown = index < 10 ? "👑 " : "";
 
-      tbody.innerHTML += row;
-    });
+  const row = `
+    <tr class="${rankClass}">
+      <td>${index + 1}</td>
+      <td>${crown}${name}</td>
+      <td>${prestige}</td>
+      <td>${data.level}</td>
+      <td>${data.attack}</td>
+    </tr>
+  `;
+
+  tbody.innerHTML += row;
+});
   })
   .catch(err => {
     document.body.innerHTML += "<p style='color:red'>players.json が見つかりません</p>";
