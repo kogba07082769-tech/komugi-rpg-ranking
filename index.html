@@ -92,9 +92,10 @@
 </table>
 
 <script>
-fetch("players.json")
+fetch("players.json?time=" + Date.now())
   .then(res => res.json())
   .then(players => {
+
     const entries = Object.entries(players);
 
     // ★ 最終攻撃力（追加攻撃％なし）
