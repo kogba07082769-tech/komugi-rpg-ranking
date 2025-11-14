@@ -97,44 +97,64 @@ fetch("players.json")
   .then(players => {
     const entries = Object.entries(players);
 
-    // 🔥ソート：プレステージ → レベル → 攻撃
+    // ★ 最終攻撃力（追加攻撃％なし）
+    const calcFinalAttack = (data) => {
+      let base = data.attack || 0;
+
+      // 装備攻撃加算
+      let equipAtk = 0;
+      if (data.equipment) {
+        equipAtk = data.equipment.reduce((sum, eq) => sum + (eq.attack || 0), 0);
+      }
+
+      // スキル攻撃加算（atkBonus がキー名）
+      let skillAtk = 0;
+      if (data.skills) {
+        skillAtk = data.skills.reduce((sum, sk) => sum + (sk.atkBonus || 0), 0);
+      }
+
+      // 追加攻撃は入れない
+      return base + equipAtk + skillAtk;
+    };
+
+    // ソート：プレステージ → レベル → 最終攻撃力
     const sorted = entries.sort((a, b) =>
       (b[1].prestigeCount || 0) - (a[1].prestigeCount || 0) ||
       b[1].level - a[1].level ||
-      b[1].attack - a[1].attack
+      calcFinalAttack(b[1]) - calcFinalAttack(a[1])
     );
 
     const tbody = document.querySelector("#rankingTable tbody");
 
     sorted.forEach((entry, index) => {
-  const [name, data] = entry;
-  const prestige = data.prestigeCount ?? 0;
+      const [name, data] = entry;
+      const finalAtk = calcFinalAttack(data);
+      const prestige = data.prestigeCount ?? 0;
 
-  // トップ3にクラス付与
-  const rankClass =
-    index === 0 ? "rank-1" :
-    index === 1 ? "rank-2" :
-    index === 2 ? "rank-3" : "";
+      const rankClass =
+        index === 0 ? "rank-1" :
+        index === 1 ? "rank-2" :
+        index === 2 ? "rank-3" : "";
 
-  // 👑 上位10人だけ王冠
-  const crown = index < 10 ? "👑 " : "";
+      const crown = index < 10 ? "👑 " : "";
 
-  const row = `
-    <tr class="${rankClass}">
-      <td>${index + 1}</td>
-      <td>${crown}${name}</td>
-      <td>${prestige}</td>
-      <td>${data.level}</td>
-      <td>${data.attack}</td>
-    </tr>
-  `;
+      const row = `
+        <tr class="${rankClass}">
+          <td>${index + 1}</td>
+          <td>${crown}${name}</td>
+          <td>${prestige}</td>
+          <td>${data.level}</td>
+          <td>${finalAtk}</td>
+        </tr>
+      `;
 
-  tbody.innerHTML += row;
-});
+      tbody.innerHTML += row;
+    });
   })
   .catch(err => {
     document.body.innerHTML += "<p style='color:red'>players.json が見つかりません</p>";
   });
+
 </script>
 
 </body>
