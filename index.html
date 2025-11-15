@@ -102,16 +102,19 @@ fetch("players.json?time=" + Date.now())
 const calcFinalAttack = (data) => {
   let base = data.attack || 0;
 
-  // 装備攻撃加算
+  // 装備の攻撃合計
   let equipAtk = 0;
   if (data.equipment) {
     equipAtk = data.equipment.reduce((sum, eq) => sum + (eq.attack || 0), 0);
   }
 
-  // 🔥 スキル攻撃加算（正しくは sk.atk）
+  // スキルの攻撃合計（atk / attack の両方に対応）
   let skillAtk = 0;
   if (data.skills) {
-    skillAtk = data.skills.reduce((sum, sk) => sum + (sk.atk || 0), 0);
+    skillAtk = data.skills.reduce((sum, sk) => {
+      const atk = sk.atk ?? sk.attack ?? 0;  // <-- これで攻撃追加%とは無関係
+      return sum + atk;
+    }, 0);
   }
 
   return base + equipAtk + skillAtk;
