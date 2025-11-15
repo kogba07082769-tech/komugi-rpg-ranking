@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>komugi RPG ランキング</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      padding: 20px;
+      background: radial-gradient(circle at top, #222 0%, #000 100%);
+      color: #fff;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 40px;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #ffd700, #ff9d00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 10px rgba(255, 200, 0, 0.4);
+    }
+
+    p {
+      margin-bottom: 20px;
+      color: #ccc;
+    }
+
+    table {
+      width: 90%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(255, 200, 0, 0.2);
+    }
+
+    th {
+      background: rgba(255, 215, 0, 0.15);
+      padding: 12px;
+      font-size: 16px;
+      border-bottom: 1px solid #666;
+      text-shadow: 0 0 5px rgba(255, 215, 0, 0.6);
+    }
+
+    td {
+      padding: 12px;
+      font-size: 15px;
+      border-bottom: 1px solid #333;
+      transition: 0.2s;
+    }
+
+    tr:hover td {
+      background: rgba(255, 215, 0, 0.1);
+      box-shadow: inset 0 0 10px rgba(255, 215, 0, 0.4);
+    }
+
+    /* トップ3に特別装飾 */
+    .rank-1 td {
+      background: rgba(255, 215, 0, 0.15);
+      font-weight: bold;
+      text-shadow: 0 0 6px rgba(255, 215, 0, 0.8);
+    }
+
+    .rank-2 td {
+      background: rgba(192, 192, 192, 0.12);
+      font-weight: bold;
+    }
+
+    .rank-3 td {
+      background: rgba(205, 127, 50, 0.12);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🏆 komugi RPG ランキング</h1>
+
+<table id="rankingTable">
+  <thead>
+    <tr>
+      <th>順位</th>
+      <th>プレイヤー名</th>
+      <th>プレステージ</th>
+      <th>レベル</th>
+      <th>攻撃力</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+fetch("players.json?time=" + Date.now())
+  .then(res => res.json())
+  .then(players => {
+
+    const entries = Object.entries(players);
+
+    // ★ 最終攻撃力（追加攻撃％なし）
+const calcFinalAttack = (data) => {
+  let base = data.attack || 0;
+
+  // 装備攻撃加算
+  let equipAtk = 0;
+  if (data.equipment) {
+    equipAtk = data.equipment.reduce((sum, eq) => sum + (eq.attack || 0), 0);
+  }
+
+  // 🔥 スキル攻撃加算（正しくは sk.atk）
+  let skillAtk = 0;
+  if (data.skills) {
+    skillAtk = data.skills.reduce((sum, sk) => sum + (sk.atk || 0), 0);
+  }
+
+  return base + equipAtk + skillAtk;
+};
+
+
+    // ソート：プレステージ → レベル → 最終攻撃力
+    const sorted = entries.sort((a, b) =>
+      (b[1].prestigeCount || 0) - (a[1].prestigeCount || 0) ||
+      b[1].level - a[1].level ||
+      calcFinalAttack(b[1]) - calcFinalAttack(a[1])
+    );
+
+    const tbody = document.querySelector("#rankingTable tbody");
+
+    sorted.forEach((entry, index) => {
+      const [name, data] = entry;
+      const finalAtk = calcFinalAttack(data);
+      const prestige = data.prestigeCount ?? 0;
+
+      const rankClass =
+        index === 0 ? "rank-1" :
+        index === 1 ? "rank-2" :
+        index === 2 ? "rank-3" : "";
+
+      const crown = index < 10 ? "👑 " : "";
+
+      const row = `
+        <tr class="${rankClass}">
+          <td>${index + 1}</td>
+          <td>${crown}${name}</td>
+          <td>${prestige}</td>
+          <td>${data.level}</td>
+          <td>${finalAtk}</td>
+        </tr>
+      `;
+
+      tbody.innerHTML += row;
+    });
+  })
+  .catch(err => {
+    document.body.innerHTML += "<p style='color:red'>players.json が見つかりません</p>";
+  });
+
+</script>
+
+</body>
+</html>
