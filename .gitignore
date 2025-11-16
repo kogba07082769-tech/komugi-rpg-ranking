@@ -1,0 +1,11 @@
+# 公開しないファイル
+.env
+players.json
+node_modules/
+*.log
+
+# ranking-generator.jsも公開しない（オプション）
+ranking-generator.js
+index.js
+package.json
+package-lock.json

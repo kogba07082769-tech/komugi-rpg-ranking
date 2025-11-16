@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RPGランキング</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .last-update {
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 40px;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      padding: 12px 24px;
+      border-radius: 25px;
+      color: white;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    .tab:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .tab.active {
+      background: rgba(255,255,255,0.4);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .ranking-card {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+
+    .ranking-item {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      margin-bottom: 10px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      transition: all 0.3s;
+    }
+
+    .ranking-item:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateX(5px);
+    }
+
+    .rank {
+      font-size: 1.5rem;
+      font-weight: bold;
+      width: 50px;
+      text-align: center;
+    }
+
+    .rank-1 { color: #FFD700; }
+    .rank-2 { color: #C0C0C0; }
+    .rank-3 { color: #CD7F32; }
+
+    .player-name {
+      flex: 1;
+      font-size: 1.2rem;
+      margin-left: 20px;
+    }
+
+    .value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #FFD700;
+    }
+
+    .loading {
+      text-align: center;
+      font-size: 1.5rem;
+      padding: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏆 RPGランキング 🏆</h1>
+    <p class="last-update" id="lastUpdate">読み込み中...</p>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="level">レベル</button>
+      <button class="tab" data-tab="attack">攻撃力</button>
+      <button class="tab" data-tab="prestige">プレステージ</button>
+      <button class="tab" data-tab="equipment">装備数</button>
+      <button class="tab" data-tab="skills">スキル数</button>
+    </div>
+
+    <div id="content">
+      <div class="loading">データを読み込んでいます...</div>
+    </div>
+  </div>
+
+  <script>
+    let rankingData = null;
+
+    async function loadRankings() {
+      try {
+        const response = await fetch('ranking.json?t=' + Date.now());
+        rankingData = await response.json();
+        
+        const updateDate = new Date(rankingData.lastUpdate);
+        document.getElementById('lastUpdate').textContent = 
+          `最終更新: ${updateDate.toLocaleString('ja-JP')}`;
+
+        showRanking('level');
+      } catch (error) {
+        document.getElementById('content').innerHTML = 
+          '<div class="loading">❌ データの読み込みに失敗しました</div>';
+      }
+    }
+
+    function showRanking(type) {
+      const data = rankingData.rankings[type];
+      
+      let html = '<div class="ranking-card">';
+      
+      data.forEach((player, index) => {
+        const rank = index + 1;
+        const rankClass = rank <= 3 ? `rank-${rank}` : '';
+        
+        html += `
+          <div class="ranking-item">
+            <div class="rank ${rankClass}">${rank}</div>
+            <div class="player-name">${player.name}</div>
+            <div class="value">${player.value.toLocaleString()}</div>
+          </div>
+        `;
+      });
+      
+      html += '</div>';
+      document.getElementById('content').innerHTML = html;
+    }
+
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        showRanking(tab.dataset.tab);
+      });
+    });
+
+    // 30秒ごとに自動更新
+    setInterval(loadRankings, 30000);
+
+    loadRankings();
+  </script>
+</body>
+</html>
