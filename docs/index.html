@@ -139,57 +139,60 @@
 
   <script>
     let rankingData = null;
+let currentTab = 'level';  // ★現在のタブを記憶
 
-    async function loadRankings() {
-      try {
-        const response = await fetch('ranking.json?t=' + Date.now());
-        rankingData = await response.json();
-        
-        const updateDate = new Date(rankingData.lastUpdate);
-        document.getElementById('lastUpdate').textContent = 
-          `最終更新: ${updateDate.toLocaleString('ja-JP')}`;
+async function loadRankings() {
+  try {
+    const response = await fetch('ranking.json?t=' + Date.now());
+    rankingData = await response.json();
+    
+    const updateDate = new Date(rankingData.lastUpdate);
+    document.getElementById('lastUpdate').textContent = 
+      `最終更新: ${updateDate.toLocaleString('ja-JP')}`;
 
-        showRanking('level');
-      } catch (error) {
-        document.getElementById('content').innerHTML = 
-          '<div class="loading">❌ データの読み込みに失敗しました</div>';
-      }
-    }
+    showRanking(currentTab);  // ★現在のタブを表示
+  } catch (error) {
+    document.getElementById('content').innerHTML = 
+      '<div class="loading">❌ データの読み込みに失敗しました</div>';
+  }
+}
 
-    function showRanking(type) {
-      const data = rankingData.rankings[type];
-      
-      let html = '<div class="ranking-card">';
-      
-      data.forEach((player, index) => {
-        const rank = index + 1;
-        const rankClass = rank <= 3 ? `rank-${rank}` : '';
-        
-        html += `
-          <div class="ranking-item">
-            <div class="rank ${rankClass}">${rank}</div>
-            <div class="player-name">${player.name}</div>
-            <div class="value">${player.value.toLocaleString()}</div>
-          </div>
-        `;
-      });
-      
-      html += '</div>';
-      document.getElementById('content').innerHTML = html;
-    }
+function showRanking(type) {
+  currentTab = type;  // ★タブ切り替え時に記憶
+  
+  const data = rankingData.rankings[type];
+  
+  let html = '<div class="ranking-card">';
+  
+  data.forEach((player, index) => {
+    const rank = index + 1;
+    const rankClass = rank <= 3 ? `rank-${rank}` : '';
+    
+    html += `
+      <div class="ranking-item">
+        <div class="rank ${rankClass}">${rank}</div>
+        <div class="player-name">${player.name}</div>
+        <div class="value">${player.value.toLocaleString()}</div>
+      </div>
+    `;
+  });
+  
+  html += '</div>';
+  document.getElementById('content').innerHTML = html;
+}
 
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        showRanking(tab.dataset.tab);
-      });
-    });
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    showRanking(tab.dataset.tab);
+  });
+});
 
-    // 30秒ごとに自動更新
-    setInterval(loadRankings, 30000);
+// 30秒ごとに自動更新
+setInterval(loadRankings, 30000);
 
-    loadRankings();
+loadRankings();
   </script>
 </body>
 </html>
