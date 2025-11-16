@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>komugi RPGランキング</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
 
     * {
       margin: 0;
@@ -14,7 +14,7 @@
     }
 
     body {
-      font-family: 'Press Start 2P', 'Segoe UI', sans-serif;
+      font-family: 'Noto Sans JP', 'Segoe UI', 'Meiryo', sans-serif;
       background: #0a0e27;
       background-image: 
         radial-gradient(circle at 20% 50%, rgba(120, 0, 255, 0.1) 0%, transparent 50%),
@@ -62,24 +62,13 @@
     }
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 2rem;
       margin-bottom: 20px;
+      color: #ffd700;
       text-shadow: 
-        0 0 10px #ff00ff,
-        0 0 20px #ff00ff,
-        0 0 30px #ff00ff,
+        0 0 5px rgba(255,215,0,0.5),
         2px 2px 4px rgba(0,0,0,0.8);
-      background: linear-gradient(45deg, #ffd700, #ff00ff, #00ffff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: glow 2s ease-in-out infinite alternate;
-      line-height: 1.5;
-    }
-
-    @keyframes glow {
-      from { filter: brightness(1) drop-shadow(0 0 10px #ff00ff); }
-      to { filter: brightness(1.2) drop-shadow(0 0 20px #00ffff); }
+      line-height: 1.2;
     }
 
     .last-update {
@@ -281,7 +270,7 @@
   
   <div class="container">
     <header>
-      <h1>🏆 komugi RPG<br>ランキング 🏆</h1>
+      <h1>🏆 komugi RPG ランキング 🏆</h1>
       <p class="last-update" id="lastUpdate">読み込み中...</p>
     </header>
 
