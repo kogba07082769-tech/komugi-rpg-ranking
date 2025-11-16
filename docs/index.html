@@ -125,12 +125,10 @@
     <p class="last-update" id="lastUpdate">読み込み中...</p>
 
     <div class="tabs">
-      <button class="tab active" data-tab="level">レベル</button>
-      <button class="tab" data-tab="attack">攻撃力</button>
-      <button class="tab" data-tab="prestige">プレステージ</button>
-      <button class="tab" data-tab="equipment">装備数</button>
-      <button class="tab" data-tab="skills">スキル数</button>
-    </div>
+  <button class="tab active" data-tab="prestige">プレステージ</button>
+  <button class="tab" data-tab="attack">攻撃力</button>
+  <button class="tab" data-tab="skills">スキル数</button>
+</div>
 
     <div id="content">
       <div class="loading">データを読み込んでいます...</div>
@@ -139,7 +137,7 @@
 
   <script>
     let rankingData = null;
-let currentTab = 'level';  // ★現在のタブを記憶
+let currentTab = 'prestige';  // ★初期タブをprestigeに変更
 
 async function loadRankings() {
   try {
