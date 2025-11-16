@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>komugi RPGランキング</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
     * {
       margin: 0;
       padding: 0;
@@ -12,123 +14,282 @@
     }
 
     body {
-      font-family: sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Press Start 2P', 'Segoe UI', sans-serif;
+      background: #0a0e27;
+      background-image: 
+        radial-gradient(circle at 20% 50%, rgba(120, 0, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 0, 150, 0.1) 0%, transparent 50%),
+        linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%);
       color: #fff;
       min-height: 100vh;
       padding: 20px;
+      overflow-x: hidden;
+    }
+
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 3s infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
     }
 
     .container {
       max-width: 1200px;
       margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: fadeInDown 1s;
     }
 
     h1 {
-      text-align: center;
-      font-size: 3rem;
-      margin-bottom: 10px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      text-shadow: 
+        0 0 10px #ff00ff,
+        0 0 20px #ff00ff,
+        0 0 30px #ff00ff,
+        2px 2px 4px rgba(0,0,0,0.8);
+      background: linear-gradient(45deg, #ffd700, #ff00ff, #00ffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: glow 2s ease-in-out infinite alternate;
+      line-height: 1.5;
+    }
+
+    @keyframes glow {
+      from { filter: brightness(1) drop-shadow(0 0 10px #ff00ff); }
+      to { filter: brightness(1.2) drop-shadow(0 0 20px #00ffff); }
     }
 
     .last-update {
-      text-align: center;
-      font-size: 0.9rem;
-      opacity: 0.8;
-      margin-bottom: 40px;
+      font-size: 0.5rem;
+      opacity: 0.7;
+      color: #00ffff;
+      text-shadow: 0 0 5px #00ffff;
     }
 
     .tabs {
       display: flex;
       justify-content: center;
-      gap: 10px;
-      margin-bottom: 30px;
+      gap: 15px;
+      margin-bottom: 40px;
       flex-wrap: wrap;
     }
 
     .tab {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      padding: 12px 24px;
-      border-radius: 25px;
-      color: white;
+      background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,0,255,0.1));
+      border: 2px solid #ffd700;
+      padding: 15px 30px;
+      border-radius: 0;
+      color: #ffd700;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 0.7rem;
       transition: all 0.3s;
+      text-transform: uppercase;
+      position: relative;
+      box-shadow: 
+        0 0 10px rgba(255,215,0,0.3),
+        inset 0 0 10px rgba(255,215,0,0.1);
+      clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
     }
 
     .tab:hover {
-      background: rgba(255,255,255,0.3);
+      background: linear-gradient(135deg, rgba(255,215,0,0.3), rgba(255,0,255,0.3));
+      box-shadow: 
+        0 0 20px rgba(255,215,0,0.6),
+        inset 0 0 20px rgba(255,215,0,0.2);
+      transform: translateY(-3px);
     }
 
     .tab.active {
-      background: rgba(255,255,255,0.4);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      background: linear-gradient(135deg, #ffd700, #ff00ff);
+      color: #000;
+      font-weight: bold;
+      box-shadow: 
+        0 0 30px rgba(255,215,0,0.8),
+        inset 0 0 20px rgba(255,255,255,0.2);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 30px rgba(255,215,0,0.8); }
+      50% { box-shadow: 0 0 50px rgba(255,0,255,0.8); }
     }
 
     .ranking-card {
-      background: rgba(255,255,255,0.15);
+      background: linear-gradient(135deg, rgba(20,30,70,0.8), rgba(40,20,60,0.8));
       backdrop-filter: blur(10px);
-      border-radius: 15px;
+      border: 3px solid #ffd700;
+      border-radius: 0;
       padding: 30px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      box-shadow: 
+        0 0 40px rgba(255,215,0,0.4),
+        inset 0 0 30px rgba(255,0,255,0.1);
+      position: relative;
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
+    }
+
+    .ranking-card::before {
+      content: '⚔️ HALL OF LEGENDS ⚔️';
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, #000, #1a1f3a, #000);
+      padding: 5px 20px;
+      border: 2px solid #ffd700;
+      font-size: 0.6rem;
+      color: #ffd700;
+      text-shadow: 0 0 10px #ffd700;
     }
 
     .ranking-item {
       display: flex;
       align-items: center;
-      padding: 15px;
-      margin-bottom: 10px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 15px;
+      background: linear-gradient(90deg, rgba(255,215,0,0.05), rgba(255,0,255,0.05));
+      border: 2px solid rgba(255,215,0,0.3);
+      border-left: 5px solid #ffd700;
       transition: all 0.3s;
+      position: relative;
+      clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%);
     }
 
     .ranking-item:hover {
-      background: rgba(255,255,255,0.2);
-      transform: translateX(5px);
+      background: linear-gradient(90deg, rgba(255,215,0,0.15), rgba(255,0,255,0.15));
+      border-color: #ffd700;
+      transform: translateX(10px) scale(1.02);
+      box-shadow: 
+        0 0 20px rgba(255,215,0,0.5),
+        inset 0 0 20px rgba(255,0,255,0.2);
     }
 
     .rank {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       font-weight: bold;
-      width: 50px;
+      width: 80px;
       text-align: center;
+      text-shadow: 0 0 10px currentColor;
     }
 
-    .rank-1 { color: #FFD700; }
-    .rank-2 { color: #C0C0C0; }
-    .rank-3 { color: #CD7F32; }
+    .rank-1 { 
+      color: #ffd700;
+      animation: rankGlow 2s infinite;
+    }
+    .rank-2 { 
+      color: #c0c0c0;
+      text-shadow: 0 0 10px #c0c0c0;
+    }
+    .rank-3 { 
+      color: #cd7f32;
+      text-shadow: 0 0 10px #cd7f32;
+    }
+
+    @keyframes rankGlow {
+      0%, 100% { text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700; }
+      50% { text-shadow: 0 0 20px #ffd700, 0 0 40px #ffd700, 0 0 60px #ff00ff; }
+    }
 
     .player-name {
       flex: 1;
-      font-size: 1.2rem;
-      margin-left: 20px;
+      font-size: 1rem;
+      margin-left: 30px;
+      color: #00ffff;
+      text-shadow: 0 0 5px #00ffff;
+      letter-spacing: 2px;
     }
 
     .value {
       font-size: 1.5rem;
       font-weight: bold;
-      color: #FFD700;
+      color: #ffd700;
+      text-shadow: 
+        0 0 10px #ffd700,
+        0 0 20px #ff00ff;
+      padding: 10px 20px;
+      background: rgba(0,0,0,0.5);
+      border: 2px solid #ffd700;
+      clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
     }
 
     .loading {
       text-align: center;
-      font-size: 1.5rem;
+      font-size: 1rem;
       padding: 50px;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      animation: blink 1.5s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      .tab {
+        font-size: 0.5rem;
+        padding: 10px 15px;
+      }
+      .player-name {
+        font-size: 0.7rem;
+      }
+      .value {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="stars" id="stars"></div>
+  
   <div class="container">
-    <h1>🏆 komugi RPGランキング 🏆</h1>
-    <p class="last-update" id="lastUpdate">読み込み中...</p>
+    <header>
+      <h1>🏆 komugi RPG<br>ランキング 🏆</h1>
+      <p class="last-update" id="lastUpdate">読み込み中...</p>
+    </header>
 
-   <div class="tabs">
-  <button class="tab active" data-tab="prestige">プレステージ</button>
-  <button class="tab" data-tab="attack">最高攻撃力</button>
-  <button class="tab" data-tab="skills">スキル数</button>
-</div>
+    <div class="tabs">
+      <button class="tab active" data-tab="prestige">⚡ プレステージ</button>
+      <button class="tab" data-tab="attack">⚔️ 最高攻撃力</button>
+      <button class="tab" data-tab="skills">✨ スキル数</button>
+    </div>
 
     <div id="content">
       <div class="loading">データを読み込んでいます...</div>
@@ -136,61 +297,73 @@
   </div>
 
   <script>
+    // 星を生成
+    const starsContainer = document.getElementById('stars');
+    for (let i = 0; i < 100; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.width = Math.random() * 3 + 'px';
+      star.style.height = star.style.width;
+      star.style.left = Math.random() * 100 + '%';
+      star.style.top = Math.random() * 100 + '%';
+      star.style.animationDelay = Math.random() * 3 + 's';
+      starsContainer.appendChild(star);
+    }
+
     let rankingData = null;
-let currentTab = 'prestige';  // ★初期タブをprestigeに変更
+    let currentTab = 'prestige';
 
-async function loadRankings() {
-  try {
-    const response = await fetch('ranking.json?t=' + Date.now());
-    rankingData = await response.json();
-    
-    const updateDate = new Date(rankingData.lastUpdate);
-    document.getElementById('lastUpdate').textContent = 
-      `最終更新: ${updateDate.toLocaleString('ja-JP')}`;
+    async function loadRankings() {
+      try {
+        const response = await fetch('ranking.json?t=' + Date.now());
+        rankingData = await response.json();
+        
+        const updateDate = new Date(rankingData.lastUpdate);
+        document.getElementById('lastUpdate').textContent = 
+          `最終更新: ${updateDate.toLocaleString('ja-JP')}`;
 
-    showRanking(currentTab);  // ★現在のタブを表示
-  } catch (error) {
-    document.getElementById('content').innerHTML = 
-      '<div class="loading">❌ データの読み込みに失敗しました</div>';
-  }
-}
+        showRanking(currentTab);
+      } catch (error) {
+        document.getElementById('content').innerHTML = 
+          '<div class="loading">❌ データの読み込みに失敗しました</div>';
+      }
+    }
 
-function showRanking(type) {
-  currentTab = type;  // ★タブ切り替え時に記憶
-  
-  const data = rankingData.rankings[type];
-  
-  let html = '<div class="ranking-card">';
-  
-  data.forEach((player, index) => {
-    const rank = index + 1;
-    const rankClass = rank <= 3 ? `rank-${rank}` : '';
-    
-    html += `
-      <div class="ranking-item">
-        <div class="rank ${rankClass}">${rank}</div>
-        <div class="player-name">${player.name}</div>
-        <div class="value">${player.value.toLocaleString()}</div>
-      </div>
-    `;
-  });
-  
-  html += '</div>';
-  document.getElementById('content').innerHTML = html;
-}
+    function showRanking(type) {
+      currentTab = type;
+      
+      const data = rankingData.rankings[type];
+      
+      let html = '<div class="ranking-card">';
+      
+      data.forEach((player, index) => {
+        const rank = index + 1;
+        const rankClass = rank <= 3 ? `rank-${rank}` : '';
+        const medal = rank === 1 ? '👑' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
+        
+        html += `
+          <div class="ranking-item">
+            <div class="rank ${rankClass}">${medal} ${rank}</div>
+            <div class="player-name">${player.name}</div>
+            <div class="value">${player.value.toLocaleString()}</div>
+          </div>
+        `;
+      });
+      
+      html += '</div>';
+      document.getElementById('content').innerHTML = html;
+    }
 
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    showRanking(tab.dataset.tab);
-  });
-});
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        showRanking(tab.dataset.tab);
+      });
+    });
 
-// 30秒ごとに自動更新
-setInterval(loadRankings, 30000);
-
-loadRankings();
+    setInterval(loadRankings, 30000);
+    loadRankings();
   </script>
 </body>
 </html>
