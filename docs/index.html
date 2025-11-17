@@ -315,6 +315,51 @@
       background: rgba(136,136,136,0.1);
     }
 
+    .bonus-summary {
+      margin-bottom: 20px;
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(20,30,70,0.6), rgba(40,20,60,0.6));
+      border: 2px solid #00ffff;
+      box-shadow: 0 0 20px rgba(0,255,255,0.3);
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+    }
+
+    .bonus-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .bonus-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+
+    .bonus-item {
+      background: rgba(0,0,0,0.4);
+      padding: 12px 15px;
+      border-left: 3px solid #ffd700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .bonus-label {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+
+    .bonus-value {
+      color: #ffd700;
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-shadow: 0 0 5px #ffd700;
+    }
+
     .search-box {
       width: 100%;
       padding: 15px;
@@ -698,6 +743,53 @@
     function updateDetailContent(player) {
       const items = currentDetailTab === 'equipment' ? player.equipment : player.skills;
 
+      // 補正値の合計を計算
+      let html = '';
+      const bonusTotal = {
+        attack: 0,
+        critRate: 0,
+        expBonus: 0,
+        dropRate: 0,
+        addAttackRate: 0,
+        attackGrowth: 0,
+        expCrit: 0
+      };
+
+      items.forEach(item => {
+        const count = item.count || 1;
+        if (item.attack > 0) bonusTotal.attack += item.attack * count;
+        if (item.critRate > 0) bonusTotal.critRate += item.critRate * count;
+        if (item.expBonus > 0) bonusTotal.expBonus += item.expBonus * count;
+        if (item.dropRate > 0) bonusTotal.dropRate += item.dropRate * count;
+        if (item.addAttackRate > 0) bonusTotal.addAttackRate += item.addAttackRate * count;
+        if (item.attackGrowth > 0) bonusTotal.attackGrowth += item.attackGrowth * count;
+        if (item.effect && item.effect.includes('経験値クリティカル')) bonusTotal.expCrit += count;
+      });
+
+      // 補正値合計を表示
+      html += '<div class="bonus-summary">';
+      const bonusTitle = currentDetailTab === 'equipment' ? '⚔️ 装備による補正値合計' : '✨ スキルによる補正値合計';
+      html += `<div class="bonus-title">📊 ${bonusTitle}</div>`;
+      html += '<div class="bonus-stats">';
+      
+      if (currentDetailTab === 'skills') {
+        if (bonusTotal.attack > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃:</span> <span class="bonus-value">+${bonusTotal.attack.toLocaleString()}</span></div>`;
+        if (bonusTotal.expBonus > 0) html += `<div class="bonus-item"><span class="bonus-label">経験値ボーナス:</span> <span class="bonus-value">+${bonusTotal.expBonus.toLocaleString()}</span></div>`;
+        if (bonusTotal.critRate > 0) html += `<div class="bonus-item"><span class="bonus-label">クリティカル率:</span> <span class="bonus-value">+${bonusTotal.critRate.toFixed(2)}%</span></div>`;
+        if (bonusTotal.expCrit > 0) html += `<div class="bonus-item"><span class="bonus-label">経験値クリティカル:</span> <span class="bonus-value">+${bonusTotal.expCrit.toFixed(2)}%</span></div>`;
+        if (bonusTotal.addAttackRate > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃追加率:</span> <span class="bonus-value">+${bonusTotal.addAttackRate.toFixed(2)}%</span></div>`;
+        if (bonusTotal.dropRate > 0) html += `<div class="bonus-item"><span class="bonus-label">ドロップ率:</span> <span class="bonus-value">+${bonusTotal.dropRate.toFixed(2)}%</span></div>`;
+        if (bonusTotal.attackGrowth > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃成長:</span> <span class="bonus-value">+${bonusTotal.attackGrowth.toLocaleString()}</span></div>`;
+      } else {
+        if (bonusTotal.attack > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃:</span> <span class="bonus-value">+${bonusTotal.attack.toLocaleString()}</span></div>`;
+        if (bonusTotal.critRate > 0) html += `<div class="bonus-item"><span class="bonus-label">クリティカル率:</span> <span class="bonus-value">+${bonusTotal.critRate.toFixed(2)}%</span></div>`;
+        if (bonusTotal.dropRate > 0) html += `<div class="bonus-item"><span class="bonus-label">ドロップ率:</span> <span class="bonus-value">+${bonusTotal.dropRate.toFixed(2)}%</span></div>`;
+        if (bonusTotal.addAttackRate > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃追加率:</span> <span class="bonus-value">+${bonusTotal.addAttackRate.toFixed(2)}%</span></div>`;
+      }
+      
+      html += '</div>';
+      html += '</div>';
+
       // レアリティごとの集計（countプロパティを考慮）
       const rarityCounts = {};
       items.forEach(item => {
@@ -707,7 +799,7 @@
       // 全レアリティを表示（所持数0も含む）
       const allRarities = ['EX', 'GR', 'MR', 'LR', 'UR', 'SR', 'R', 'N'];
 
-      let html = '<div class="rarity-summary">';
+      html += '<div class="rarity-summary">';
       allRarities.forEach(rarity => {
         const count = rarityCounts[rarity] || 0;
         html += `<div class="rarity-count rarity-${rarity}">${rarity}: ${count}</div>`;
