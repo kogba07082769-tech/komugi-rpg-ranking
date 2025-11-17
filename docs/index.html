@@ -170,9 +170,250 @@
       background: linear-gradient(90deg, rgba(255,215,0,0.15), rgba(255,0,255,0.15));
       border-color: #ffd700;
       transform: translateX(10px) scale(1.02);
-      box-shadow: 
+      box-shadow:
         0 0 20px rgba(255,215,0,0.5),
         inset 0 0 20px rgba(255,0,255,0.2);
+    }
+
+    /* 詳細画面用スタイル */
+    .player-name.clickable {
+      cursor: pointer;
+    }
+
+    .player-name.clickable:hover {
+      text-decoration: underline;
+    }
+
+    .back-button {
+      background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,0,255,0.1));
+      border: 2px solid #ffd700;
+      padding: 12px 30px;
+      border-radius: 0;
+      color: #ffd700;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px rgba(255,215,0,0.3);
+      clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+    }
+
+    .back-button:hover {
+      background: linear-gradient(135deg, rgba(255,215,0,0.3), rgba(255,0,255,0.3));
+      box-shadow: 0 0 20px rgba(255,215,0,0.6);
+      transform: translateY(-2px);
+    }
+
+    .player-info {
+      background: linear-gradient(135deg, rgba(20,30,70,0.8), rgba(40,20,60,0.8));
+      border: 2px solid #ffd700;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 20px rgba(255,215,0,0.3);
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+    }
+
+    .player-info h2 {
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+
+    .player-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+    }
+
+    .stat-item {
+      background: rgba(0,0,0,0.3);
+      padding: 10px;
+      border: 1px solid rgba(255,215,0,0.3);
+      border-left: 3px solid #ffd700;
+    }
+
+    .stat-label {
+      color: #aaa;
+      font-size: 0.8rem;
+    }
+
+    .stat-value {
+      color: #ffd700;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-shadow: 0 0 5px #ffd700;
+    }
+
+    .rarity-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+      padding: 20px;
+      background: rgba(0,0,0,0.3);
+      border: 2px solid rgba(255,215,0,0.3);
+    }
+
+    .rarity-count {
+      padding: 10px 20px;
+      border: 2px solid;
+      font-weight: bold;
+      min-width: 80px;
+      text-align: center;
+      clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+    }
+
+    .rarity-EX {
+      border-color: #ffffff;
+      color: #ffffff;
+      text-shadow: 0 0 10px #ffffff, 0 0 20px #ff00ff, 0 0 30px #00ffff;
+      background: linear-gradient(90deg, rgba(255,0,255,0.2), rgba(0,255,255,0.2), rgba(255,215,0,0.2));
+    }
+    .rarity-GR {
+      border-color: #7fff00;
+      color: #7fff00;
+      text-shadow: 0 0 10px #7fff00;
+      background: rgba(127,255,0,0.1);
+    }
+    .rarity-MR {
+      border-color: #ff0000;
+      color: #ff0000;
+      text-shadow: 0 0 10px #ff0000;
+      background: rgba(255,0,0,0.1);
+    }
+    .rarity-LR {
+      border-color: #ffd700;
+      color: #ffd700;
+      text-shadow: 0 0 10px #ffd700;
+      background: rgba(255,215,0,0.1);
+    }
+    .rarity-UR {
+      border-color: #ff00ff;
+      color: #ff00ff;
+      text-shadow: 0 0 10px #ff00ff;
+      background: rgba(255,0,255,0.1);
+    }
+    .rarity-SR {
+      border-color: #00ffff;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      background: rgba(0,255,255,0.1);
+    }
+    .rarity-R {
+      border-color: #00ff00;
+      color: #00ff00;
+      text-shadow: 0 0 10px #00ff00;
+      background: rgba(0,255,0,0.1);
+    }
+    .rarity-N {
+      border-color: #888;
+      color: #888;
+      text-shadow: 0 0 10px #888;
+      background: rgba(136,136,136,0.1);
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 20px;
+      background: rgba(0,0,0,0.5);
+      border: 2px solid #ffd700;
+      color: #fff;
+      font-size: 1rem;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    .search-box::placeholder {
+      color: #888;
+    }
+
+    .filter-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .filter-tag {
+      background: rgba(255,215,0,0.1);
+      border: 2px solid #ffd700;
+      padding: 8px 20px;
+      color: #ffd700;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+    }
+
+    .filter-tag:hover {
+      background: rgba(255,215,0,0.2);
+      box-shadow: 0 0 10px rgba(255,215,0,0.5);
+    }
+
+    .filter-tag.active {
+      background: linear-gradient(135deg, #ffd700, #ff00ff);
+      color: #000;
+      font-weight: bold;
+      box-shadow: 0 0 20px rgba(255,215,0,0.8);
+    }
+
+    .items-list {
+      display: grid;
+      gap: 15px;
+    }
+
+    .item-card {
+      background: linear-gradient(90deg, rgba(255,215,0,0.05), rgba(255,0,255,0.05));
+      border: 2px solid rgba(255,215,0,0.3);
+      border-left: 5px solid;
+      padding: 15px;
+      transition: all 0.3s;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+    }
+
+    .item-card:hover {
+      background: linear-gradient(90deg, rgba(255,215,0,0.15), rgba(255,0,255,0.15));
+      transform: translateX(5px);
+      box-shadow: 0 0 15px rgba(255,215,0,0.3);
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .item-name {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #00ffff;
+      text-shadow: 0 0 5px #00ffff;
+    }
+
+    .item-rarity {
+      padding: 5px 15px;
+      border: 1px solid;
+      font-size: 0.8rem;
+      font-weight: bold;
+      clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+    }
+
+    .item-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+
+    .item-stat {
+      background: rgba(0,0,0,0.3);
+      padding: 5px 10px;
+      border-left: 2px solid #ffd700;
     }
 
     .rank {
@@ -274,7 +515,7 @@
       <p class="last-update" id="lastUpdate">読み込み中...</p>
     </header>
 
-    <div class="tabs">
+    <div class="tabs" id="ranking-tabs">
   <button class="tab active" data-tab="prestige">⚡ プレステージ</button>
   <button class="tab" data-tab="attack">⚔️ 最高攻撃力</button>
   <button class="tab" data-tab="damage">💥 最大ダメージ</button>
@@ -301,47 +542,288 @@
     }
 
     let rankingData = null;
+    let playerData = null;
     let currentTab = 'prestige';
+    let currentDetailTab = 'skills';
+    let currentFilters = [];
+
+    // URLパラメータを取得
+    const urlParams = new URLSearchParams(window.location.search);
+    const playerName = urlParams.get('player');
+
+    // レアリティの優先順位
+    const rarityOrder = { 'EX': 8, 'GR': 7, 'MR': 6, 'LR': 5, 'UR': 4, 'SR': 3, 'R': 2, 'N': 1 };
 
     async function loadRankings() {
       try {
         const response = await fetch('ranking.json?t=' + Date.now());
         rankingData = await response.json();
-        
+
         const updateDate = new Date(rankingData.lastUpdate);
-        document.getElementById('lastUpdate').textContent = 
+        document.getElementById('lastUpdate').textContent =
           `最終更新: ${updateDate.toLocaleString('ja-JP')}`;
 
         showRanking(currentTab);
       } catch (error) {
-        document.getElementById('content').innerHTML = 
+        document.getElementById('content').innerHTML =
           '<div class="loading">❌ データの読み込みに失敗しました</div>';
+      }
+    }
+
+    async function loadPlayerData() {
+      try {
+        const response = await fetch('players_detail.json?t=' + Date.now());
+        const data = await response.json();
+
+        // 最終更新日時を表示
+        const updateDate = new Date(data.lastUpdate);
+        document.getElementById('lastUpdate').textContent =
+          `最終更新: ${updateDate.toLocaleString('ja-JP')}`;
+
+        // プレイヤーデータを設定
+        playerData = data.players;
+        showPlayerDetail(playerName);
+      } catch (error) {
+        document.getElementById('content').innerHTML =
+          '<div class="loading">❌ プレイヤーデータの読み込みに失敗しました</div>';
       }
     }
 
     function showRanking(type) {
       currentTab = type;
-      
+
+      // ランキングタブを表示
+      document.getElementById('ranking-tabs').style.display = 'flex';
+
       const data = rankingData.rankings[type];
-      
+
       let html = '<div class="ranking-card">';
-      
+
       data.forEach((player, index) => {
         const rank = index + 1;
         const rankClass = rank <= 3 ? `rank-${rank}` : '';
         const medal = rank === 1 ? '👑' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
-        
+
         html += `
           <div class="ranking-item">
             <div class="rank ${rankClass}">${medal} ${rank}</div>
-            <div class="player-name">${player.name}</div>
+            <div class="player-name clickable" onclick="goToPlayerDetail('${player.name}')">${player.name}</div>
             <div class="value">${player.value.toLocaleString()}</div>
           </div>
         `;
       });
-      
+
       html += '</div>';
       document.getElementById('content').innerHTML = html;
+    }
+
+    function goToPlayerDetail(name) {
+      window.location.href = `?player=${encodeURIComponent(name)}`;
+    }
+
+    function goBack() {
+      window.location.href = 'index.html';
+    }
+
+    function showPlayerDetail(name) {
+      const player = playerData[name];
+      if (!player) {
+        document.getElementById('content').innerHTML =
+          '<div class="loading">❌ プレイヤーが見つかりません</div>';
+        return;
+      }
+
+      // ランキングタブを非表示
+      document.getElementById('ranking-tabs').style.display = 'none';
+
+      // スキルと装備の総数を計算
+      const skillsTotal = player.skills.reduce((sum, item) => sum + (item.count || 1), 0);
+      const equipmentTotal = player.equipment.reduce((sum, item) => sum + (item.count || 1), 0);
+
+      let html = `
+        <button class="back-button" onclick="goBack()">⬅ ランキングに戻る</button>
+
+        <div class="player-info">
+          <h2>${name}</h2>
+          <div class="player-stats">
+            <div class="stat-item">
+              <div class="stat-label">レベル</div>
+              <div class="stat-value">${player.level}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">攻撃力</div>
+              <div class="stat-value">${player.attack}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">経験値</div>
+              <div class="stat-value">${player.exp}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">プレステージ</div>
+              <div class="stat-value">${player.prestigeCount}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">ドラゴンHP</div>
+              <div class="stat-value">${player.dragonHP}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs" id="detail-tabs">
+          <button class="tab detail-tab ${currentDetailTab === 'skills' ? 'active' : ''}" data-tab="skills" onclick="switchDetailTab('skills')">✨ スキル (${skillsTotal})</button>
+          <button class="tab detail-tab ${currentDetailTab === 'equipment' ? 'active' : ''}" data-tab="equipment" onclick="switchDetailTab('equipment')">⚔️ 装備 (${equipmentTotal})</button>
+        </div>
+
+        <div id="detail-content"></div>
+      `;
+
+      document.getElementById('content').innerHTML = html;
+      updateDetailContent(player);
+    }
+
+    function switchDetailTab(tab) {
+      currentDetailTab = tab;
+      currentFilters = [];
+
+      // タブのアクティブ状態を更新
+      document.querySelectorAll('.detail-tab').forEach(tabBtn => {
+        tabBtn.classList.remove('active');
+      });
+      document.querySelector(`.detail-tab[data-tab="${tab}"]`).classList.add('active');
+
+      const player = playerData[playerName];
+      updateDetailContent(player);
+    }
+
+    function updateDetailContent(player) {
+      const items = currentDetailTab === 'equipment' ? player.equipment : player.skills;
+
+      // レアリティごとの集計（countプロパティを考慮）
+      const rarityCounts = {};
+      items.forEach(item => {
+        rarityCounts[item.rarity] = (rarityCounts[item.rarity] || 0) + (item.count || 1);
+      });
+
+      // 全レアリティを表示（所持数0も含む）
+      const allRarities = ['EX', 'GR', 'MR', 'LR', 'UR', 'SR', 'R', 'N'];
+
+      let html = '<div class="rarity-summary">';
+      allRarities.forEach(rarity => {
+        const count = rarityCounts[rarity] || 0;
+        html += `<div class="rarity-count rarity-${rarity}">${rarity}: ${count}</div>`;
+      });
+      html += '</div>';
+
+      // フィルタータグ
+      const filterTypes = getFilterTypes(currentDetailTab);
+      html += '<div class="filter-tags">';
+      filterTypes.forEach(filter => {
+        const active = currentFilters.includes(filter.key) ? 'active' : '';
+        html += `<button class="filter-tag ${active}" onclick="toggleFilter('${filter.key}')">${filter.label}</button>`;
+      });
+      html += '</div>';
+
+      // アイテム一覧
+      const filteredItems = filterItems(items);
+      html += '<div class="items-list">';
+      filteredItems.forEach(item => {
+        html += renderItemCard(item);
+      });
+      html += '</div>';
+
+      document.getElementById('detail-content').innerHTML = html;
+    }
+
+    function getFilterTypes(tab) {
+      if (tab === 'equipment') {
+        return [
+          { key: 'attack', label: '攻撃' },
+          { key: 'critRate', label: 'クリティカル率' },
+          { key: 'dropRate', label: 'ドロップ率' },
+          { key: 'addAttackRate', label: '攻撃追加率' }
+        ];
+      } else {
+        return [
+          { key: 'attack', label: '攻撃' },
+          { key: 'expBonus', label: '経験値ボーナス' },
+          { key: 'critRate', label: 'クリティカル率' },
+          { key: 'expCrit', label: '経験値クリティカル' },
+          { key: 'addAttackRate', label: '攻撃追加率' },
+          { key: 'dropRate', label: 'ドロップ率' },
+          { key: 'attackGrowth', label: '攻撃成長' }
+        ];
+      }
+    }
+
+    function toggleFilter(filterKey) {
+      if (currentFilters.includes(filterKey)) {
+        currentFilters = [];
+      } else {
+        currentFilters = [filterKey];
+      }
+      const player = playerData[playerName];
+      updateDetailContent(player);
+    }
+
+    function filterItems(items) {
+      let filtered = [...items];
+
+      // タグフィルター
+      if (currentFilters.length > 0) {
+        filtered = filtered.filter(item => {
+          return currentFilters.some(filter => {
+            if (filter === 'expCrit') {
+              return item.effect && item.effect.includes('経験値クリティカル');
+            }
+            return item[filter] && item[filter] > 0;
+          });
+        });
+      }
+
+      // レアリティ順にソート
+      filtered.sort((a, b) => {
+        const rarityDiff = (rarityOrder[b.rarity] || 0) - (rarityOrder[a.rarity] || 0);
+        if (rarityDiff !== 0) return rarityDiff;
+        return a.name.localeCompare(b.name);
+      });
+
+      return filtered;
+    }
+
+    function renderItemCard(item) {
+      let html = `<div class="item-card" style="border-left-color: ${getRarityColor(item.rarity)}">`;
+      html += '<div class="item-header">';
+      html += `<div class="item-name">${item.name} <span style="color: #ffd700; font-weight: bold;">×${item.count}</span></div>`;
+      html += `<div class="item-rarity rarity-${item.rarity}" style="border-color: ${getRarityColor(item.rarity)}; color: ${getRarityColor(item.rarity)}">${item.rarity}</div>`;
+      html += '</div>';
+
+      html += '<div class="item-stats">';
+      if (item.effect) html += `<div class="item-stat">効果: ${item.effect}</div>`;
+      if (item.attack > 0) html += `<div class="item-stat">攻撃: ${item.attack}</div>`;
+      if (item.critRate > 0) html += `<div class="item-stat">クリティカル率: ${item.critRate.toFixed(2)}%</div>`;
+      if (item.expBonus > 0) html += `<div class="item-stat">経験値: ${item.expBonus}</div>`;
+      if (item.dropRate > 0) html += `<div class="item-stat">ドロップ率: ${item.dropRate}%</div>`;
+      if (item.addAttackRate > 0) html += `<div class="item-stat">攻撃追加率: ${item.addAttackRate}%</div>`;
+      if (item.attackGrowth > 0) html += `<div class="item-stat">攻撃成長: ${item.attackGrowth}</div>`;
+      if (item.rate) html += `<div class="item-stat">出現率: ${item.rate}%</div>`;
+      html += '</div>';
+
+      html += '</div>';
+      return html;
+    }
+
+    function getRarityColor(rarity) {
+      const colors = {
+        'EX': '#ffffff',
+        'GR': '#7fff00',
+        'MR': '#ff0000',
+        'LR': '#ffd700',
+        'UR': '#ff00ff',
+        'SR': '#00ffff',
+        'R': '#00ff00',
+        'N': '#888'
+      };
+      return colors[rarity] || '#888';
     }
 
     document.querySelectorAll('.tab').forEach(tab => {
@@ -352,8 +834,13 @@
       });
     });
 
-    setInterval(loadRankings, 30000);
-    loadRankings();
+    // 初期化
+    if (playerName) {
+      loadPlayerData();
+    } else {
+      setInterval(loadRankings, 30000);
+      loadRankings();
+    }
   </script>
 </body>
 </html>
