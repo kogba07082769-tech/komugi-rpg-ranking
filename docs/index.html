@@ -515,7 +515,7 @@
       <p class="last-update" id="lastUpdate">読み込み中...</p>
     </header>
 
-    <div class="tabs">
+    <div class="tabs" id="ranking-tabs">
   <button class="tab active" data-tab="prestige">⚡ プレステージ</button>
   <button class="tab" data-tab="attack">⚔️ 最高攻撃力</button>
   <button class="tab" data-tab="damage">💥 最大ダメージ</button>
@@ -546,7 +546,6 @@
     let currentTab = 'prestige';
     let currentDetailTab = 'skills';
     let currentFilters = [];
-    let searchQuery = '';
 
     // URLパラメータを取得
     const urlParams = new URLSearchParams(window.location.search);
@@ -574,7 +573,15 @@
     async function loadPlayerData() {
       try {
         const response = await fetch('players_detail.json?t=' + Date.now());
-        playerData = await response.json();
+        const data = await response.json();
+
+        // 最終更新日時を表示
+        const updateDate = new Date(data.lastUpdate);
+        document.getElementById('lastUpdate').textContent =
+          `最終更新: ${updateDate.toLocaleString('ja-JP')}`;
+
+        // プレイヤーデータを設定
+        playerData = data.players;
         showPlayerDetail(playerName);
       } catch (error) {
         document.getElementById('content').innerHTML =
@@ -584,6 +591,9 @@
 
     function showRanking(type) {
       currentTab = type;
+
+      // ランキングタブを表示
+      document.getElementById('ranking-tabs').style.display = 'flex';
 
       const data = rankingData.rankings[type];
 
@@ -622,6 +632,9 @@
           '<div class="loading">❌ プレイヤーが見つかりません</div>';
         return;
       }
+
+      // ランキングタブを非表示
+      document.getElementById('ranking-tabs').style.display = 'none';
 
       let html = `
         <button class="back-button" onclick="goBack()">⬅ ランキングに戻る</button>
@@ -667,7 +680,6 @@
     function switchDetailTab(tab) {
       currentDetailTab = tab;
       currentFilters = [];
-      searchQuery = '';
       const player = playerData[playerName];
       updateDetailContent(player);
     }
@@ -681,19 +693,15 @@
         rarityCounts[item.rarity] = (rarityCounts[item.rarity] || 0) + 1;
       });
 
-      // レアリティ順にソート
-      const sortedRarities = Object.keys(rarityCounts).sort((a, b) =>
-        (rarityOrder[b] || 0) - (rarityOrder[a] || 0)
-      );
+      // 全レアリティを表示（所持数0も含む）
+      const allRarities = ['EX', 'GR', 'MR', 'LR', 'UR', 'SR', 'R', 'N'];
 
       let html = '<div class="rarity-summary">';
-      sortedRarities.forEach(rarity => {
-        html += `<div class="rarity-count rarity-${rarity}">${rarity}: ${rarityCounts[rarity]}</div>`;
+      allRarities.forEach(rarity => {
+        const count = rarityCounts[rarity] || 0;
+        html += `<div class="rarity-count rarity-${rarity}">${rarity}: ${count}</div>`;
       });
       html += '</div>';
-
-      // 検索ボックス
-      html += `<input type="text" class="search-box" placeholder="検索..." value="${searchQuery}" oninput="handleSearch(event)">`;
 
       // フィルタータグ
       const filterTypes = getFilterTypes(currentDetailTab);
@@ -746,22 +754,8 @@
       updateDetailContent(player);
     }
 
-    function handleSearch(event) {
-      searchQuery = event.target.value;
-      const player = playerData[playerName];
-      updateDetailContent(player);
-    }
-
     function filterItems(items) {
       let filtered = [...items];
-
-      // 検索フィルター
-      if (searchQuery) {
-        filtered = filtered.filter(item =>
-          item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          (item.effect && item.effect.toLowerCase().includes(searchQuery.toLowerCase()))
-        );
-      }
 
       // タグフィルター
       if (currentFilters.length > 0) {

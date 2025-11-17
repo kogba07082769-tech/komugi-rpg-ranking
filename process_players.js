@@ -54,9 +54,15 @@ for (const [playerName, playerInfo] of Object.entries(playersData)) {
   };
 }
 
+// 最終更新日時を追加
+const outputData = {
+  lastUpdate: new Date().toISOString(),
+  players: processedData
+};
+
 // docs/players_detail.json に出力
 const outputPath = path.join(__dirname, 'docs', 'players_detail.json');
-fs.writeFileSync(outputPath, JSON.stringify(processedData, null, 2));
+fs.writeFileSync(outputPath, JSON.stringify(outputData, null, 2));
 
 const originalSize = fs.statSync(path.join(__dirname, 'players.json')).size;
 const processedSize = fs.statSync(outputPath).size;
