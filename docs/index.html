@@ -636,6 +636,10 @@
       // ランキングタブを非表示
       document.getElementById('ranking-tabs').style.display = 'none';
 
+      // スキルと装備の総数を計算
+      const skillsTotal = player.skills.reduce((sum, item) => sum + (item.count || 1), 0);
+      const equipmentTotal = player.equipment.reduce((sum, item) => sum + (item.count || 1), 0);
+
       let html = `
         <button class="back-button" onclick="goBack()">⬅ ランキングに戻る</button>
 
@@ -665,9 +669,9 @@
           </div>
         </div>
 
-        <div class="tabs">
-          <button class="tab ${currentDetailTab === 'skills' ? 'active' : ''}" onclick="switchDetailTab('skills')">✨ スキル</button>
-          <button class="tab ${currentDetailTab === 'equipment' ? 'active' : ''}" onclick="switchDetailTab('equipment')">⚔️ 装備</button>
+        <div class="tabs" id="detail-tabs">
+          <button class="tab detail-tab ${currentDetailTab === 'skills' ? 'active' : ''}" data-tab="skills" onclick="switchDetailTab('skills')">✨ スキル (${skillsTotal})</button>
+          <button class="tab detail-tab ${currentDetailTab === 'equipment' ? 'active' : ''}" data-tab="equipment" onclick="switchDetailTab('equipment')">⚔️ 装備 (${equipmentTotal})</button>
         </div>
 
         <div id="detail-content"></div>
@@ -680,6 +684,13 @@
     function switchDetailTab(tab) {
       currentDetailTab = tab;
       currentFilters = [];
+
+      // タブのアクティブ状態を更新
+      document.querySelectorAll('.detail-tab').forEach(tabBtn => {
+        tabBtn.classList.remove('active');
+      });
+      document.querySelector(`.detail-tab[data-tab="${tab}"]`).classList.add('active');
+
       const player = playerData[playerName];
       updateDetailContent(player);
     }
@@ -687,10 +698,10 @@
     function updateDetailContent(player) {
       const items = currentDetailTab === 'equipment' ? player.equipment : player.skills;
 
-      // レアリティごとの集計
+      // レアリティごとの集計（countプロパティを考慮）
       const rarityCounts = {};
       items.forEach(item => {
-        rarityCounts[item.rarity] = (rarityCounts[item.rarity] || 0) + 1;
+        rarityCounts[item.rarity] = (rarityCounts[item.rarity] || 0) + (item.count || 1);
       });
 
       // 全レアリティを表示（所持数0も含む）
