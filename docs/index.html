@@ -427,6 +427,37 @@
       box-shadow: 0 0 15px rgba(255,215,0,0.3);
     }
 
+    .skill-header {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .skill-header:hover {
+      opacity: 0.8;
+    }
+
+    .accordion-icon {
+      display: inline-block;
+      margin-right: 8px;
+      transition: transform 0.3s;
+      font-size: 1.2rem;
+    }
+
+    .accordion-icon.open {
+      transform: rotate(90deg);
+    }
+
+    .owners-list {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+
+    .owners-list.open {
+      max-height: 2000px;
+      transition: max-height 0.5s ease-in;
+    }
+
     .item-header {
       display: flex;
       justify-content: space-between;
@@ -737,13 +768,17 @@
       html += '<div style="margin-bottom: 20px; color: #00ffff; font-size: 1.1rem; text-align: center;">全スキル: ' + skills.length + '種類 | 表示中: ' + filteredSkills.length + '種類</div>';
 
       // スキル一覧を表示
-      filteredSkills.forEach(skill => {
+      filteredSkills.forEach((skill, index) => {
         const totalCount = skill.owners.reduce((sum, owner) => sum + owner.count, 0);
         const ownerCount = skill.owners.length;
+        const skillId = `skill-${index}`;
 
         html += '<div class="item-card" style="border-left-color: ' + getRarityColor(skill.rarity) + '">';
+        
+        // クリック可能なヘッダー部分
+        html += `<div class="skill-header" onclick="toggleSkillOwners('${skillId}')">`;
         html += '<div class="item-header">';
-        html += `<div class="item-name">${skill.name}</div>`;
+        html += `<div class="item-name"><span class="accordion-icon" id="icon-${skillId}">▶</span>${skill.name}</div>`;
         html += `<div class="item-rarity rarity-${skill.rarity}" style="border-color: ${getRarityColor(skill.rarity)}; color: ${getRarityColor(skill.rarity)}">${skill.rarity}</div>`;
         html += '</div>';
         
@@ -752,21 +787,25 @@
         }
 
         html += `<div style="color: #ffd700; font-weight: bold; margin-bottom: 10px;">所持者: ${ownerCount}人 | 総数: ${totalCount}個</div>`;
+        html += '</div>';
 
-        html += '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px;">';
+        // アコーディオンで開閉するプレイヤー一覧部分
+        html += `<div class="owners-list" id="${skillId}">`;
+        html += '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; margin-top: 10px;">';
         
         // 所持者を所持数の多い順にソート
         skill.owners.sort((a, b) => b.count - a.count);
         
         skill.owners.forEach(owner => {
           html += `<div style="background: rgba(0,0,0,0.3); padding: 8px; border-left: 2px solid #ffd700; display: flex; justify-content: space-between; align-items: center;">`;
-          html += `<span class="clickable" style="color: #00ffff; cursor: pointer;" onclick="goToPlayerDetail('${owner.playerName}')">${owner.playerName}</span>`;
+          html += `<span class="clickable" style="color: #00ffff; cursor: pointer;" onclick="event.stopPropagation(); goToPlayerDetail('${owner.playerName}')">${owner.playerName}</span>`;
           html += `<span style="color: #ffd700; font-weight: bold;">×${owner.count}</span>`;
           html += '</div>';
         });
 
         html += '</div>';
-        html += '</div>';
+        html += '</div>'; // owners-list終了
+        html += '</div>'; // item-card終了
       });
 
       html += '</div>';
@@ -1037,6 +1076,21 @@
     function filterSkillsByRarity(rarity) {
       currentSkillRarityFilter = rarity;
       showSkillOwners();
+    }
+
+    function toggleSkillOwners(skillId) {
+      const ownersList = document.getElementById(skillId);
+      const icon = document.getElementById('icon-' + skillId);
+      
+      if (ownersList.classList.contains('open')) {
+        ownersList.classList.remove('open');
+        icon.classList.remove('open');
+        icon.textContent = '▶';
+      } else {
+        ownersList.classList.add('open');
+        icon.classList.add('open');
+        icon.textContent = '▼';
+      }
     }
 
     function getRarityColor(rarity) {
