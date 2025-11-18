@@ -1,4 +1,4 @@
-# 公開しなぁE��ァイル
+# 公開しないファイル
 .env
 players.json
 node_modules/
@@ -7,8 +7,11 @@ ranking-generator.js
 package.json
 package-lock.json
 
-# GitHub Actionsも除夁E
+# GitHub Actionsも除外
 .github/
 
 backups/
 index.js
+
+# Serena設定フォルダ
+.serena/
