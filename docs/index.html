@@ -567,6 +567,7 @@
   <button class="tab" data-tab="attack">⚔️ 最高攻撃力</button>
   <button class="tab" data-tab="damage">💥 最大ダメージ</button>
   <button class="tab" data-tab="skills">✨ スキル数</button>
+  <button class="tab" data-tab="skill-owners">📊 スキル所持状況</button>
 </div>
 
     <div id="content">
@@ -593,6 +594,7 @@
     let currentTab = 'prestige';
     let currentDetailTab = 'skills';
     let currentFilters = [];
+    let currentSkillRarityFilter = '';
 
     // URLパラメータを取得
     const urlParams = new URLSearchParams(window.location.search);
@@ -642,6 +644,12 @@
       // ランキングタブを表示
       document.getElementById('ranking-tabs').style.display = 'flex';
 
+      // スキル所持状況の場合は別の関数を呼び出す
+      if (type === 'skill-owners') {
+        showSkillOwners();
+        return;
+      }
+
       const data = rankingData.rankings[type];
 
       let html = '<div class="ranking-card">';
@@ -658,6 +666,107 @@
             <div class="value">${player.value.toLocaleString()}</div>
           </div>
         `;
+      });
+
+      html += '</div>';
+      document.getElementById('content').innerHTML = html;
+    }
+
+    async function showSkillOwners() {
+      // プレイヤーデータを読み込む（まだ読み込まれていない場合）
+      if (!playerData) {
+        try {
+          const response = await fetch('players_detail.json?t=' + Date.now());
+          const data = await response.json();
+          playerData = data.players;
+        } catch (error) {
+          document.getElementById('content').innerHTML =
+            '<div class="loading">❌ プレイヤーデータの読み込みに失敗しました</div>';
+          return;
+        }
+      }
+
+      // 各スキルの所持状況を集計
+      const skillOwnership = {};
+      
+      Object.entries(playerData).forEach(([playerName, player]) => {
+        if (player.skills && player.skills.length > 0) {
+          player.skills.forEach(skill => {
+            const key = skill.name;
+            if (!skillOwnership[key]) {
+              skillOwnership[key] = {
+                name: skill.name,
+                rarity: skill.rarity,
+                effect: skill.effect,
+                owners: []
+              };
+            }
+            const count = skill.count || 1;
+            skillOwnership[key].owners.push({
+              playerName: playerName,
+              count: count
+            });
+          });
+        }
+      });
+
+      // スキルを配列に変換してソート（レアリティ優先、次に名前）
+      const skills = Object.values(skillOwnership);
+      skills.sort((a, b) => {
+        const rarityDiff = (rarityOrder[b.rarity] || 0) - (rarityOrder[a.rarity] || 0);
+        if (rarityDiff !== 0) return rarityDiff;
+        return a.name.localeCompare(b.name);
+      });
+
+      // レアリティフィルター用のタグを表示
+      let html = '<div class="filter-tags" style="margin-bottom: 20px;">';
+      const allRarities = ['EX', 'GR', 'MR', 'LR', 'UR', 'SR', 'R', 'N'];
+      allRarities.forEach(rarity => {
+        const active = currentSkillRarityFilter === rarity ? 'active' : '';
+        html += `<button class="filter-tag ${active}" onclick="filterSkillsByRarity('${rarity}')">${rarity}</button>`;
+      });
+      html += '<button class="filter-tag' + (currentSkillRarityFilter === '' ? ' active' : '') + '" onclick="filterSkillsByRarity(\'\')">すべて</button>';
+      html += '</div>';
+
+      // フィルター適用
+      const filteredSkills = currentSkillRarityFilter 
+        ? skills.filter(skill => skill.rarity === currentSkillRarityFilter)
+        : skills;
+
+      html += '<div class="ranking-card">';
+      html += '<div style="margin-bottom: 20px; color: #00ffff; font-size: 1.1rem; text-align: center;">全スキル: ' + skills.length + '種類 | 表示中: ' + filteredSkills.length + '種類</div>';
+
+      // スキル一覧を表示
+      filteredSkills.forEach(skill => {
+        const totalCount = skill.owners.reduce((sum, owner) => sum + owner.count, 0);
+        const ownerCount = skill.owners.length;
+
+        html += '<div class="item-card" style="border-left-color: ' + getRarityColor(skill.rarity) + '">';
+        html += '<div class="item-header">';
+        html += `<div class="item-name">${skill.name}</div>`;
+        html += `<div class="item-rarity rarity-${skill.rarity}" style="border-color: ${getRarityColor(skill.rarity)}; color: ${getRarityColor(skill.rarity)}">${skill.rarity}</div>`;
+        html += '</div>';
+        
+        if (skill.effect) {
+          html += `<div style="color: #aaa; font-size: 0.9rem; margin-bottom: 10px;">効果: ${skill.effect}</div>`;
+        }
+
+        html += `<div style="color: #ffd700; font-weight: bold; margin-bottom: 10px;">所持者: ${ownerCount}人 | 総数: ${totalCount}個</div>`;
+
+        html += '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px;">';
+        
+        // 所持者を所持数の多い順にソート
+        skill.owners.sort((a, b) => b.count - a.count);
+        
+        skill.owners.forEach(owner => {
+          html += `<div style="background: rgba(0,0,0,0.3); padding: 8px; border-left: 2px solid #ffd700; display: flex; justify-content: space-between; align-items: center;">`;
+          html += `<span class="clickable" style="color: #00ffff; cursor: pointer;" onclick="goToPlayerDetail('${owner.playerName}')">${owner.playerName}</span>`;
+          html += `<span style="color: #ffd700; font-weight: bold;">×${owner.count}</span>`;
+          html += '</div>';
+        });
+
+        html += '</div>';
+        html += '</div>';
       });
 
       html += '</div>';
@@ -923,6 +1032,11 @@
 
       html += '</div>';
       return html;
+    }
+
+    function filterSkillsByRarity(rarity) {
+      currentSkillRarityFilter = rarity;
+      showSkillOwners();
     }
 
     function getRarityColor(rarity) {
