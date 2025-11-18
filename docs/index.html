@@ -687,6 +687,21 @@
       const skillsTotal = player.skills.reduce((sum, item) => sum + (item.count || 1), 0);
       const equipmentTotal = player.equipment.reduce((sum, item) => sum + (item.count || 1), 0);
 
+      // スキルからの攻撃力ボーナスを計算
+      const skillAttackBonus = player.skills.reduce((sum, item) => {
+        const count = item.count || 1;
+        return sum + (item.attack > 0 ? item.attack * count : 0);
+      }, 0);
+
+      // 装備からの攻撃力ボーナスを計算
+      const equipmentAttackBonus = player.equipment.reduce((sum, item) => {
+        const count = item.count || 1;
+        return sum + (item.attack > 0 ? item.attack * count : 0);
+      }, 0);
+
+      // 総合攻撃力を計算
+      const totalAttack = player.attack + skillAttackBonus + equipmentAttackBonus;
+
       let html = `
         <button class="back-button" onclick="goBack()">⬅ ランキングに戻る</button>
 
@@ -694,24 +709,28 @@
           <h2>${name}</h2>
           <div class="player-stats">
             <div class="stat-item">
-              <div class="stat-label">レベル</div>
-              <div class="stat-value">${player.level}</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-label">攻撃力</div>
-              <div class="stat-value">${player.attack}</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-label">経験値</div>
-              <div class="stat-value">${player.exp}</div>
-            </div>
-            <div class="stat-item">
               <div class="stat-label">プレステージ</div>
               <div class="stat-value">${player.prestigeCount}</div>
             </div>
             <div class="stat-item">
               <div class="stat-label">ドラゴンHP</div>
               <div class="stat-value">${player.dragonHP}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">レベル</div>
+              <div class="stat-value">${player.level}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">経験値</div>
+              <div class="stat-value">${player.exp}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">基礎攻撃力</div>
+              <div class="stat-value">${player.attack}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">総合攻撃力</div>
+              <div class="stat-value">${totalAttack.toLocaleString()}</div>
             </div>
           </div>
         </div>
