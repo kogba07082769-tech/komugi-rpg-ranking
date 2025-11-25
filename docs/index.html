@@ -1696,13 +1696,16 @@
 
       html += '</div>'; // vs-container
 
-      // バー比較
+      // バー比較（スキルによる補正値合計）
       html += '<div class="compare-bar-container">';
-      html += '<div class="compare-bar-title">📊 ステータス比較</div>';
-      html += renderCompareBar('プレステージ', stats1.prestige, stats2.prestige, comparePlayer1, comparePlayer2);
-      html += renderCompareBar('総合攻撃力', stats1.totalAttack, stats2.totalAttack, comparePlayer1, comparePlayer2);
-      html += renderCompareBar('スキル数', stats1.skillCount, stats2.skillCount, comparePlayer1, comparePlayer2);
-      html += renderCompareBar('クリティカル率', stats1.critRate, stats2.critRate, comparePlayer1, comparePlayer2, true);
+      html += '<div class="compare-bar-title">📊 スキルによる補正値合計比較</div>';
+      html += renderCompareBar('攻撃', stats1.skillBonus.attack, stats2.skillBonus.attack, comparePlayer1, comparePlayer2);
+      html += renderCompareBar('経験値ボーナス', stats1.skillBonus.expBonus, stats2.skillBonus.expBonus, comparePlayer1, comparePlayer2);
+      html += renderCompareBar('クリティカル率', stats1.skillBonus.critRate, stats2.skillBonus.critRate, comparePlayer1, comparePlayer2, true);
+      html += renderCompareBar('経験値クリティカル', stats1.skillBonus.expCrit, stats2.skillBonus.expCrit, comparePlayer1, comparePlayer2, true);
+      html += renderCompareBar('攻撃追加率', stats1.skillBonus.addAttackRate, stats2.skillBonus.addAttackRate, comparePlayer1, comparePlayer2, true);
+      html += renderCompareBar('ドロップ率', stats1.skillBonus.dropRate, stats2.skillBonus.dropRate, comparePlayer1, comparePlayer2, true);
+      html += renderCompareBar('攻撃成長', stats1.skillBonus.attackGrowth, stats2.skillBonus.attackGrowth, comparePlayer1, comparePlayer2);
       html += '</div>';
 
       // レアリティ別スキル比較
@@ -1762,10 +1765,29 @@
         return sum + (item.attack > 0 ? item.attack * count : 0);
       }, 0);
 
-      const critRate = player.skills.reduce((sum, item) => {
+      // スキルによる補正値を計算
+      const skillBonus = {
+        attack: 0,
+        expBonus: 0,
+        critRate: 0,
+        expCrit: 0,
+        addAttackRate: 0,
+        dropRate: 0,
+        attackGrowth: 0
+      };
+
+      player.skills.forEach(item => {
         const count = item.count || 1;
-        return sum + (item.critRate > 0 ? item.critRate * count : 0);
-      }, 0) + player.equipment.reduce((sum, item) => {
+        if (item.attack > 0) skillBonus.attack += item.attack * count;
+        if (item.expBonus > 0) skillBonus.expBonus += item.expBonus * count;
+        if (item.critRate > 0) skillBonus.critRate += item.critRate * count;
+        if (item.effect && item.effect.includes('経験値クリティカル')) skillBonus.expCrit += count;
+        if (item.addAttackRate > 0) skillBonus.addAttackRate += item.addAttackRate * count;
+        if (item.dropRate > 0) skillBonus.dropRate += item.dropRate * count;
+        if (item.attackGrowth > 0) skillBonus.attackGrowth += item.attackGrowth * count;
+      });
+
+      const critRate = skillBonus.critRate + player.equipment.reduce((sum, item) => {
         const count = item.count || 1;
         return sum + (item.critRate > 0 ? item.critRate * count : 0);
       }, 0);
@@ -1785,7 +1807,8 @@
         skillCount: skillsTotal,
         equipmentCount: equipmentTotal,
         critRate: critRate,
-        skillsByRarity: skillsByRarity
+        skillsByRarity: skillsByRarity,
+        skillBonus: skillBonus
       };
     }
 
