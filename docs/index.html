@@ -1032,7 +1032,10 @@
         document.getElementById('lastUpdate').textContent =
           `最終更新: ${updateDate.toLocaleString('ja-JP')}`;
 
-        showRanking(currentTab);
+        // 比較タブやスキル所持状況タブの場合は画面を再描画しない（ユーザー操作を妨げないため）
+        if (currentTab !== 'compare' && currentTab !== 'skill-owners') {
+          showRanking(currentTab);
+        }
       } catch (error) {
         document.getElementById('content').innerHTML =
           '<div class="loading">❌ データの読み込みに失敗しました</div>';
@@ -1861,9 +1864,10 @@
 
     // 初期化
     if (playerName) {
+      setInterval(loadPlayerData, 60000);
       loadPlayerData();
     } else {
-      setInterval(loadRankings, 30000);
+      setInterval(loadRankings, 60000);
       loadRankings();
     }
   </script>
