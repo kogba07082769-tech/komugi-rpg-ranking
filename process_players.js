@@ -43,6 +43,18 @@ for (const [playerName, playerInfo] of Object.entries(playersData)) {
     });
   }
 
+  // サーヴァントをグループ化してカウント
+  const servantsMap = new Map();
+  if (playerInfo.servants && Array.isArray(playerInfo.servants)) {
+    playerInfo.servants.forEach(servantName => {
+      if (servantsMap.has(servantName)) {
+        servantsMap.set(servantName, servantsMap.get(servantName) + 1);
+      } else {
+        servantsMap.set(servantName, 1);
+      }
+    });
+  }
+
   processedData[playerName] = {
     level: playerInfo.level || 0,
     exp: playerInfo.exp || 0,
@@ -50,7 +62,8 @@ for (const [playerName, playerInfo] of Object.entries(playersData)) {
     prestigeCount: playerInfo.prestigeCount || 0,
     dragonHP: playerInfo.dragonHP || 0,
     equipment: Array.from(equipmentMap.values()),
-    skills: Array.from(skillsMap.values())
+    skills: Array.from(skillsMap.values()),
+    servants: Array.from(servantsMap.entries()).map(([name, count]) => ({ name, count }))
   };
 }
 

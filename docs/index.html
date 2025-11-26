@@ -986,7 +986,9 @@
   <button class="tab" data-tab="attack">⚔️ 最高攻撃力</button>
   <button class="tab" data-tab="damage">💥 最大ダメージ</button>
   <button class="tab" data-tab="skills">✨ スキル数</button>
+  <button class="tab" data-tab="servants">🐾 サーヴァント数</button>
   <button class="tab" data-tab="skill-owners">📊 スキル所持状況</button>
+  <button class="tab" data-tab="servant-owners">🐾 サーヴァント所持状況</button>
   <button class="tab" data-tab="compare">🆚 プレイヤー比較</button>
 </div>
 
@@ -1015,6 +1017,32 @@
     let currentDetailTab = 'skills';
     let currentFilters = [];
     let currentSkillRarityFilter = '';
+    let currentServantFilter = '';
+    let includeSkillBonus = true;
+    let includeEquipmentBonus = true;
+    let includeServantBonus = true;
+
+    // サーヴァントのバフ情報
+    const servantBuffs = {
+      'スライム': { attack: 10, expBonus: 10 },
+      'レアスライム': { attack: 100, expBonus: 100 },
+      'スケルトン': { critRate: 3, expCrit: 3 },
+      'レアスケルトン': { critRate: 10, expCrit: 10 },
+      '魔獣ケルベロス': { addAttackRate: 10 },
+      'フェニックス': { critRate: 10, expCrit: 10, addAttackRate: 10 },
+      'リヴァイアサン': { attackGrowth: 1, critRate: 10, expCrit: 10, addAttackRate: 10 }
+    };
+
+    // サーヴァントの表示順序
+    const servantOrder = {
+      'リヴァイアサン': 1,
+      'フェニックス': 2,
+      '魔獣ケルベロス': 3,
+      'レアスケルトン': 4,
+      'スケルトン': 5,
+      'レアスライム': 6,
+      'スライム': 7
+    };
 
     // URLパラメータを取得
     const urlParams = new URLSearchParams(window.location.search);
@@ -1067,6 +1095,18 @@
       // スキル所持状況の場合は別の関数を呼び出す
       if (type === 'skill-owners') {
         showSkillOwners();
+        return;
+      }
+
+      // サーヴァント数ランキングの場合は別の関数を呼び出す
+      if (type === 'servants') {
+        showServantsRanking();
+        return;
+      }
+
+      // サーヴァント所持状況の場合は別の関数を呼び出す
+      if (type === 'servant-owners') {
+        showServantOwners();
         return;
       }
 
@@ -1209,6 +1249,185 @@
       document.getElementById('content').innerHTML = html;
     }
 
+    async function showServantsRanking() {
+      // プレイヤーデータを読み込む（まだ読み込まれていない場合）
+      if (!playerData) {
+        try {
+          const response = await fetch('players_detail.json?t=' + Date.now());
+          const data = await response.json();
+          playerData = data.players;
+        } catch (error) {
+          document.getElementById('content').innerHTML =
+            '<div class="loading">❌ プレイヤーデータの読み込みに失敗しました</div>';
+          return;
+        }
+      }
+
+      // 各プレイヤーのサーヴァント総数を計算してランキング化
+      const servantRanking = Object.entries(playerData)
+        .map(([name, player]) => {
+          const servantCount = player.servants ? player.servants.reduce((sum, s) => sum + s.count, 0) : 0;
+          return { name, value: servantCount };
+        })
+        .filter(p => p.value > 0)
+        .sort((a, b) => b.value - a.value);
+
+      let html = '<div class="ranking-card">';
+
+      servantRanking.forEach((player, index) => {
+        const rank = index + 1;
+        const rankClass = rank <= 3 ? `rank-${rank}` : '';
+        const medal = rank === 1 ? '👑' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
+
+        html += `
+          <div class="ranking-item">
+            <div class="rank ${rankClass}">${medal} ${rank}</div>
+            <div class="player-name clickable" onclick="goToPlayerDetail('${player.name}')">${player.name}</div>
+            <div class="value">${player.value.toLocaleString()}</div>
+          </div>
+        `;
+      });
+
+      html += '</div>';
+      document.getElementById('content').innerHTML = html;
+    }
+
+    async function showServantOwners() {
+      // プレイヤーデータを読み込む（まだ読み込まれていない場合）
+      if (!playerData) {
+        try {
+          const response = await fetch('players_detail.json?t=' + Date.now());
+          const data = await response.json();
+          playerData = data.players;
+        } catch (error) {
+          document.getElementById('content').innerHTML =
+            '<div class="loading">❌ プレイヤーデータの読み込みに失敗しました</div>';
+          return;
+        }
+      }
+
+      // 各サーヴァントの所持状況を集計
+      const servantOwnership = {};
+
+      Object.entries(playerData).forEach(([playerName, player]) => {
+        if (player.servants && player.servants.length > 0) {
+          player.servants.forEach(servant => {
+            const key = servant.name;
+            if (!servantOwnership[key]) {
+              servantOwnership[key] = {
+                name: servant.name,
+                buffs: servantBuffs[servant.name] || {},
+                owners: []
+              };
+            }
+            servantOwnership[key].owners.push({
+              playerName: playerName,
+              count: servant.count
+            });
+          });
+        }
+      });
+
+      // サーヴァントを配列に変換してソート（指定の順序で）
+      const servants = Object.values(servantOwnership);
+      servants.sort((a, b) => {
+        const orderA = servantOrder[a.name] || 999;
+        const orderB = servantOrder[b.name] || 999;
+        return orderA - orderB;
+      });
+
+      // サーヴァント種別フィルター用のタグを表示
+      let html = '<div class="filter-tags" style="margin-bottom: 20px;">';
+      html += '<button class="filter-tag' + (currentServantFilter === '' ? ' active' : '') + '" onclick="filterServants(\'\')">すべて</button>';
+      servants.forEach(servant => {
+        const active = currentServantFilter === servant.name ? 'active' : '';
+        html += `<button class="filter-tag ${active}" onclick="filterServants('${servant.name}')">${servant.name}</button>`;
+      });
+      html += '</div>';
+
+      // フィルター適用
+      const filteredServants = currentServantFilter
+        ? servants.filter(s => s.name === currentServantFilter)
+        : servants;
+
+      html += '<div class="ranking-card">';
+      html += '<div style="margin-bottom: 20px; color: #00ffff; font-size: 1.1rem; text-align: center;">全サーヴァント: ' + servants.length + '種類 | 表示中: ' + filteredServants.length + '種類</div>';
+
+      // サーヴァント一覧を表示
+      filteredServants.forEach((servant, index) => {
+        const totalCount = servant.owners.reduce((sum, owner) => sum + owner.count, 0);
+        const ownerCount = servant.owners.length;
+        const servantId = `servant-${index}`;
+
+        html += '<div class="item-card" style="border-left-color: #ffd700">';
+
+        // クリック可能なヘッダー部分
+        html += `<div class="skill-header" onclick="toggleServantOwners('${servantId}')">`;
+        html += '<div class="item-header">';
+        html += `<div class="item-name"><span class="accordion-icon" id="icon-${servantId}">▶</span>🐾 ${servant.name}</div>`;
+        html += '</div>';
+
+        // バフ効果を表示
+        const buffs = servant.buffs;
+        if (Object.keys(buffs).length > 0) {
+          html += '<div style="color: #aaa; font-size: 0.9rem; margin-bottom: 10px;">バフ効果: ';
+          const buffTexts = [];
+          if (buffs.attack) buffTexts.push(`攻撃+${buffs.attack}`);
+          if (buffs.expBonus) buffTexts.push(`経験値+${buffs.expBonus}`);
+          if (buffs.critRate) buffTexts.push(`クリティカル率+${buffs.critRate}%`);
+          if (buffs.expCrit) buffTexts.push(`経験値クリティカル+${buffs.expCrit}%`);
+          if (buffs.addAttackRate) buffTexts.push(`攻撃追加率+${buffs.addAttackRate}%`);
+          if (buffs.attackGrowth) buffTexts.push(`攻撃成長+${buffs.attackGrowth}`);
+          html += buffTexts.join(', ');
+          html += '</div>';
+        }
+
+        html += `<div style="color: #ffd700; font-weight: bold; margin-bottom: 10px;">所持者: ${ownerCount}人 | 総数: ${totalCount}体</div>`;
+        html += '</div>';
+
+        // アコーディオンで開閉するプレイヤー一覧部分
+        html += `<div class="owners-list" id="${servantId}">`;
+        html += '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; margin-top: 10px;">';
+
+        // 所持者を所持数の多い順にソート
+        servant.owners.sort((a, b) => b.count - a.count);
+
+        servant.owners.forEach(owner => {
+          html += `<div style="background: rgba(0,0,0,0.3); padding: 8px; border-left: 2px solid #ffd700; display: flex; justify-content: space-between; align-items: center;">`;
+          html += `<span class="clickable" style="color: #00ffff; cursor: pointer;" onclick="event.stopPropagation(); goToPlayerDetail('${owner.playerName}')">${owner.playerName}</span>`;
+          html += `<span style="color: #ffd700; font-weight: bold;">×${owner.count}</span>`;
+          html += '</div>';
+        });
+
+        html += '</div>';
+        html += '</div>'; // owners-list終了
+        html += '</div>'; // item-card終了
+      });
+
+      html += '</div>';
+      document.getElementById('content').innerHTML = html;
+    }
+
+    function filterServants(servantName) {
+      currentServantFilter = servantName;
+      showServantOwners();
+    }
+
+    function toggleServantOwners(servantId) {
+      const ownersList = document.getElementById(servantId);
+      const icon = document.getElementById('icon-' + servantId);
+
+      if (ownersList.classList.contains('open')) {
+        ownersList.classList.remove('open');
+        icon.classList.remove('open');
+        icon.textContent = '▶';
+      } else {
+        ownersList.classList.add('open');
+        icon.classList.add('open');
+        icon.textContent = '▼';
+      }
+    }
+
     function goToPlayerDetail(name) {
       window.location.href = `?player=${encodeURIComponent(name)}`;
     }
@@ -1228,31 +1447,20 @@
       // ランキングタブを非表示
       document.getElementById('ranking-tabs').style.display = 'none';
 
-      // スキルと装備の総数を計算
+      // スキルと装備とサーヴァントの総数を計算
       const skillsTotal = player.skills.reduce((sum, item) => sum + (item.count || 1), 0);
       const equipmentTotal = player.equipment.reduce((sum, item) => sum + (item.count || 1), 0);
+      const servantsTotal = player.servants ? player.servants.reduce((sum, s) => sum + s.count, 0) : 0;
 
-      // スキルからの攻撃力ボーナスを計算
-      const skillAttackBonus = player.skills.reduce((sum, item) => {
-        const count = item.count || 1;
-        return sum + (item.attack > 0 ? item.attack * count : 0);
-      }, 0);
-
-      // 装備からの攻撃力ボーナスを計算
-      const equipmentAttackBonus = player.equipment.reduce((sum, item) => {
-        const count = item.count || 1;
-        return sum + (item.attack > 0 ? item.attack * count : 0);
-      }, 0);
-
-      // 総合攻撃力を計算
-      const totalAttack = player.attack + skillAttackBonus + equipmentAttackBonus;
+      // 全ボーナス計算
+      const allBonuses = calculateAllBonuses(player);
 
       let html = `
         <button class="back-button" onclick="goBack()">⬅ ランキングに戻る</button>
 
         <div class="player-info">
           <h2>${name}</h2>
-          <div class="player-stats">
+          <div class="player-stats" id="player-stats">
             <div class="stat-item">
               <div class="stat-label">プレステージ</div>
               <div class="stat-value">${player.prestigeCount}</div>
@@ -1275,14 +1483,34 @@
             </div>
             <div class="stat-item">
               <div class="stat-label">総合攻撃力</div>
-              <div class="stat-value">${totalAttack.toLocaleString()}</div>
+              <div class="stat-value" id="total-attack-value">${(player.attack + allBonuses.attack).toLocaleString()}</div>
             </div>
+          </div>
+        </div>
+
+        <!-- 補正値合計セクション -->
+        <div class="bonus-summary">
+          <div class="bonus-title">📊 補正値合計</div>
+          <div style="text-align: center; margin-bottom: 15px;">
+            <label style="margin-right: 15px; cursor: pointer;">
+              <input type="checkbox" id="include-skill" ${includeSkillBonus ? 'checked' : ''} onchange="toggleBonusSource('skill')"> ✨ スキル
+            </label>
+            <label style="margin-right: 15px; cursor: pointer;">
+              <input type="checkbox" id="include-equipment" ${includeEquipmentBonus ? 'checked' : ''} onchange="toggleBonusSource('equipment')"> ⚔️ 装備
+            </label>
+            <label style="cursor: pointer;">
+              <input type="checkbox" id="include-servant" ${includeServantBonus ? 'checked' : ''} onchange="toggleBonusSource('servant')"> 🐾 サーヴァント
+            </label>
+          </div>
+          <div class="bonus-stats" id="bonus-stats">
+            ${renderBonusStats(allBonuses)}
           </div>
         </div>
 
         <div class="tabs" id="detail-tabs">
           <button class="tab detail-tab ${currentDetailTab === 'skills' ? 'active' : ''}" data-tab="skills" onclick="switchDetailTab('skills')">✨ スキル (${skillsTotal})</button>
           <button class="tab detail-tab ${currentDetailTab === 'equipment' ? 'active' : ''}" data-tab="equipment" onclick="switchDetailTab('equipment')">⚔️ 装備 (${equipmentTotal})</button>
+          <button class="tab detail-tab ${currentDetailTab === 'servants' ? 'active' : ''}" data-tab="servants" onclick="switchDetailTab('servants')">🐾 サーヴァント (${servantsTotal})</button>
         </div>
 
         <div id="detail-content"></div>
@@ -1290,6 +1518,89 @@
 
       document.getElementById('content').innerHTML = html;
       updateDetailContent(player);
+    }
+
+    function calculateAllBonuses(player) {
+      const bonuses = {
+        attack: 0,
+        expBonus: 0,
+        critRate: 0,
+        expCrit: 0,
+        addAttackRate: 0,
+        dropRate: 0,
+        attackGrowth: 0
+      };
+
+      // スキルからのボーナス
+      if (includeSkillBonus) {
+        player.skills.forEach(item => {
+          const count = item.count || 1;
+          if (item.attack > 0) bonuses.attack += item.attack * count;
+          if (item.expBonus > 0) bonuses.expBonus += item.expBonus * count;
+          if (item.critRate > 0) bonuses.critRate += item.critRate * count;
+          if (item.effect && item.effect.includes('経験値クリティカル')) bonuses.expCrit += count;
+          if (item.addAttackRate > 0) bonuses.addAttackRate += item.addAttackRate * count;
+          if (item.dropRate > 0) bonuses.dropRate += item.dropRate * count;
+          if (item.attackGrowth > 0) bonuses.attackGrowth += item.attackGrowth * count;
+        });
+      }
+
+      // 装備からのボーナス
+      if (includeEquipmentBonus) {
+        player.equipment.forEach(item => {
+          const count = item.count || 1;
+          if (item.attack > 0) bonuses.attack += item.attack * count;
+          if (item.critRate > 0) bonuses.critRate += item.critRate * count;
+          if (item.dropRate > 0) bonuses.dropRate += item.dropRate * count;
+          if (item.addAttackRate > 0) bonuses.addAttackRate += item.addAttackRate * count;
+        });
+      }
+
+      // サーヴァントからのボーナス
+      if (includeServantBonus && player.servants) {
+        player.servants.forEach(servant => {
+          const buffs = servantBuffs[servant.name] || {};
+          const count = servant.count;
+          if (buffs.attack) bonuses.attack += buffs.attack * count;
+          if (buffs.expBonus) bonuses.expBonus += buffs.expBonus * count;
+          if (buffs.critRate) bonuses.critRate += buffs.critRate * count;
+          if (buffs.expCrit) bonuses.expCrit += buffs.expCrit * count;
+          if (buffs.addAttackRate) bonuses.addAttackRate += buffs.addAttackRate * count;
+          if (buffs.attackGrowth) bonuses.attackGrowth += buffs.attackGrowth * count;
+        });
+      }
+
+      return bonuses;
+    }
+
+    function renderBonusStats(bonuses) {
+      let html = '';
+      if (bonuses.attack > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃:</span> <span class="bonus-value">+${bonuses.attack.toLocaleString()}</span></div>`;
+      if (bonuses.expBonus > 0) html += `<div class="bonus-item"><span class="bonus-label">経験値ボーナス:</span> <span class="bonus-value">+${bonuses.expBonus.toLocaleString()}</span></div>`;
+      if (bonuses.critRate > 0) html += `<div class="bonus-item"><span class="bonus-label">クリティカル率:</span> <span class="bonus-value">+${bonuses.critRate.toFixed(2)}%</span></div>`;
+      if (bonuses.expCrit > 0) html += `<div class="bonus-item"><span class="bonus-label">経験値クリティカル:</span> <span class="bonus-value">+${bonuses.expCrit.toFixed(2)}%</span></div>`;
+      if (bonuses.addAttackRate > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃追加率:</span> <span class="bonus-value">+${bonuses.addAttackRate.toFixed(2)}%</span></div>`;
+      if (bonuses.dropRate > 0) html += `<div class="bonus-item"><span class="bonus-label">ドロップ率:</span> <span class="bonus-value">+${bonuses.dropRate.toFixed(2)}%</span></div>`;
+      if (bonuses.attackGrowth > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃成長:</span> <span class="bonus-value">+${bonuses.attackGrowth.toLocaleString()}</span></div>`;
+      return html || '<div style="text-align: center; color: #aaa;">補正値なし</div>';
+    }
+
+    function toggleBonusSource(source) {
+      if (source === 'skill') {
+        includeSkillBonus = document.getElementById('include-skill').checked;
+      } else if (source === 'equipment') {
+        includeEquipmentBonus = document.getElementById('include-equipment').checked;
+      } else if (source === 'servant') {
+        includeServantBonus = document.getElementById('include-servant').checked;
+      }
+      updatePlayerStats();
+    }
+
+    function updatePlayerStats() {
+      const player = playerData[playerName];
+      const allBonuses = calculateAllBonuses(player);
+      document.getElementById('bonus-stats').innerHTML = renderBonusStats(allBonuses);
+      document.getElementById('total-attack-value').textContent = (player.attack + allBonuses.attack).toLocaleString();
     }
 
     function switchDetailTab(tab) {
@@ -1307,6 +1618,12 @@
     }
 
     function updateDetailContent(player) {
+      // サーヴァントタブの場合は別の表示
+      if (currentDetailTab === 'servants') {
+        updateServantContent(player);
+        return;
+      }
+
       const items = currentDetailTab === 'equipment' ? player.equipment : player.skills;
 
       // 補正値の合計を計算
@@ -1337,7 +1654,7 @@
       const bonusTitle = currentDetailTab === 'equipment' ? '⚔️ 装備による補正値合計' : '✨ スキルによる補正値合計';
       html += `<div class="bonus-title">📊 ${bonusTitle}</div>`;
       html += '<div class="bonus-stats">';
-      
+
       if (currentDetailTab === 'skills') {
         if (bonusTotal.attack > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃:</span> <span class="bonus-value">+${bonusTotal.attack.toLocaleString()}</span></div>`;
         if (bonusTotal.expBonus > 0) html += `<div class="bonus-item"><span class="bonus-label">経験値ボーナス:</span> <span class="bonus-value">+${bonusTotal.expBonus.toLocaleString()}</span></div>`;
@@ -1352,7 +1669,7 @@
         if (bonusTotal.dropRate > 0) html += `<div class="bonus-item"><span class="bonus-label">ドロップ率:</span> <span class="bonus-value">+${bonusTotal.dropRate.toFixed(2)}%</span></div>`;
         if (bonusTotal.addAttackRate > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃追加率:</span> <span class="bonus-value">+${bonusTotal.addAttackRate.toFixed(2)}%</span></div>`;
       }
-      
+
       html += '</div>';
       html += '</div>';
 
@@ -1387,6 +1704,81 @@
       filteredItems.forEach(item => {
         html += renderItemCard(item);
       });
+      html += '</div>';
+
+      document.getElementById('detail-content').innerHTML = html;
+    }
+
+    function updateServantContent(player) {
+      const servants = player.servants || [];
+
+      // サーヴァントによる補正値の合計を計算
+      let html = '';
+      const bonusTotal = {
+        attack: 0,
+        expBonus: 0,
+        critRate: 0,
+        expCrit: 0,
+        addAttackRate: 0,
+        attackGrowth: 0
+      };
+
+      servants.forEach(servant => {
+        const buffs = servantBuffs[servant.name] || {};
+        const count = servant.count;
+        if (buffs.attack) bonusTotal.attack += buffs.attack * count;
+        if (buffs.expBonus) bonusTotal.expBonus += buffs.expBonus * count;
+        if (buffs.critRate) bonusTotal.critRate += buffs.critRate * count;
+        if (buffs.expCrit) bonusTotal.expCrit += buffs.expCrit * count;
+        if (buffs.addAttackRate) bonusTotal.addAttackRate += buffs.addAttackRate * count;
+        if (buffs.attackGrowth) bonusTotal.attackGrowth += buffs.attackGrowth * count;
+      });
+
+      // 補正値合計を表示
+      html += '<div class="bonus-summary">';
+      html += '<div class="bonus-title">📊 🐾 サーヴァントによる補正値合計</div>';
+      html += '<div class="bonus-stats">';
+      if (bonusTotal.attack > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃:</span> <span class="bonus-value">+${bonusTotal.attack.toLocaleString()}</span></div>`;
+      if (bonusTotal.expBonus > 0) html += `<div class="bonus-item"><span class="bonus-label">経験値ボーナス:</span> <span class="bonus-value">+${bonusTotal.expBonus.toLocaleString()}</span></div>`;
+      if (bonusTotal.critRate > 0) html += `<div class="bonus-item"><span class="bonus-label">クリティカル率:</span> <span class="bonus-value">+${bonusTotal.critRate.toFixed(2)}%</span></div>`;
+      if (bonusTotal.expCrit > 0) html += `<div class="bonus-item"><span class="bonus-label">経験値クリティカル:</span> <span class="bonus-value">+${bonusTotal.expCrit.toFixed(2)}%</span></div>`;
+      if (bonusTotal.addAttackRate > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃追加率:</span> <span class="bonus-value">+${bonusTotal.addAttackRate.toFixed(2)}%</span></div>`;
+      if (bonusTotal.attackGrowth > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃成長:</span> <span class="bonus-value">+${bonusTotal.attackGrowth.toLocaleString()}</span></div>`;
+      html += '</div>';
+      html += '</div>';
+
+      // サーヴァント一覧
+      html += '<div class="items-list">';
+
+      // 順序でソート
+      const sortedServants = [...servants].sort((a, b) => {
+        const orderA = servantOrder[a.name] || 999;
+        const orderB = servantOrder[b.name] || 999;
+        return orderA - orderB;
+      });
+
+      sortedServants.forEach(servant => {
+        const buffs = servantBuffs[servant.name] || {};
+        html += '<div class="item-card" style="border-left-color: #ffd700">';
+        html += '<div class="item-header">';
+        html += `<div class="item-name">🐾 ${servant.name} <span style="color: #ffd700; font-weight: bold;">×${servant.count}</span></div>`;
+        html += '</div>';
+
+        // バフ効果を表示
+        if (Object.keys(buffs).length > 0) {
+          html += '<div class="item-stats">';
+          if (buffs.attack) html += `<div class="item-stat">攻撃: +${buffs.attack * servant.count}</div>`;
+          if (buffs.expBonus) html += `<div class="item-stat">経験値: +${buffs.expBonus * servant.count}</div>`;
+          if (buffs.critRate) html += `<div class="item-stat">クリティカル率: +${(buffs.critRate * servant.count).toFixed(2)}%</div>`;
+          if (buffs.expCrit) html += `<div class="item-stat">経験値クリティカル: +${(buffs.expCrit * servant.count).toFixed(2)}%</div>`;
+          if (buffs.addAttackRate) html += `<div class="item-stat">攻撃追加率: +${(buffs.addAttackRate * servant.count).toFixed(2)}%</div>`;
+          if (buffs.attackGrowth) html += `<div class="item-stat">攻撃成長: +${buffs.attackGrowth * servant.count}</div>`;
+          html += '</div>';
+        }
+
+        html += '</div>';
+      });
+
       html += '</div>';
 
       document.getElementById('detail-content').innerHTML = html;
@@ -1862,8 +2254,15 @@
     // 初期化
     if (playerName) {
       loadPlayerData();
+      // プレイヤー詳細ページも60秒ごとに自動更新
+      setInterval(loadPlayerData, 60000);
     } else {
-      setInterval(loadRankings, 30000);
+      // ランキング一覧は60秒ごとに自動更新（ただしcompare, skill-owners, servant-ownersタブ以外）
+      setInterval(() => {
+        if (currentTab !== 'compare' && currentTab !== 'skill-owners' && currentTab !== 'servant-owners') {
+          loadRankings();
+        }
+      }, 60000);
       loadRankings();
     }
   </script>
