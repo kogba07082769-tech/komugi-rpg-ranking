@@ -190495,21 +190495,49 @@
     "maxDamage": 0
   },
   "komugi5656": {
-    "level": 32,
-    "exp": 160,
-    "attack": 32,
+    "level": 77,
+    "exp": 740,
+    "attack": 77,
     "equipment": [
       {
-        "name": "魔導の ボウ（SR）",
-        "rarity": "SR",
-        "rate": 20,
-        "attack": 9,
-        "critRate": 1.4423626475046913,
+        "name": "竜殺しの アックス（LR）",
+        "rarity": "LR",
+        "rate": 2,
+        "attack": 15,
+        "critRate": 3.267272196483254,
         "dropRate": 0,
-        "addAttackRate": 0
+        "addAttackRate": 0.9075299293334094
       }
     ],
     "skills": [
+      {
+        "rarity": "N",
+        "name": "学びの初歩",
+        "effect": "経験値ボーナス＋1",
+        "expBonus": 1,
+        "rate": 21
+      },
+      {
+        "rarity": "N",
+        "name": "斬撃の心得",
+        "effect": "攻撃＋1",
+        "attack": 1,
+        "rate": 21
+      },
+      {
+        "rarity": "SR",
+        "name": "ひらめきの瞬間",
+        "effect": "経験値クリティカル＋1%",
+        "expCrit": 1,
+        "rate": 7.5
+      },
+      {
+        "rarity": "R",
+        "name": "熟練の知恵",
+        "effect": "経験値ボーナス＋2",
+        "expBonus": 2,
+        "rate": 17.5
+      },
       {
         "rarity": "R",
         "name": "戦士の記憶",
@@ -190525,14 +190553,10 @@
       "skeleton": 0,
       "raremonster": 0
     },
-    "maxAttack": 72,
+    "maxAttack": 77,
     "maxDamage": 0,
     "servants": [
-      "スライム",
-      "スライム",
-      "スライム",
-      "スライム",
-      "レアスライム"
+      "月光のリヴァイアサン"
     ]
   }
 }
