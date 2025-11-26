@@ -407,6 +407,394 @@
       box-shadow: 0 0 20px rgba(255,215,0,0.8);
     }
 
+    /* プレイヤー比較機能のスタイル */
+    .compare-container {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .compare-selector {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .player-select-box {
+      background: linear-gradient(135deg, rgba(20,30,70,0.8), rgba(40,20,60,0.8));
+      border: 2px solid #ffd700;
+      padding: 20px;
+      min-width: 250px;
+      text-align: center;
+    }
+
+    .player-select-box h3 {
+      color: #ffd700;
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px #ffd700;
+    }
+
+    .player-select-box select {
+      width: 100%;
+      padding: 12px;
+      background: rgba(0,0,0,0.5);
+      border: 2px solid #00ffff;
+      color: #fff;
+      font-size: 1rem;
+      font-family: 'Noto Sans JP', sans-serif;
+      cursor: pointer;
+    }
+
+    .player-select-box select option {
+      background: #1a1f3a;
+      color: #fff;
+    }
+
+    .compare-button {
+      background: linear-gradient(135deg, #ff0000, #ff6600);
+      border: 3px solid #ffd700;
+      padding: 15px 50px;
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      transition: all 0.3s;
+      box-shadow: 0 0 20px rgba(255,0,0,0.5);
+      clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+    }
+
+    .compare-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 40px rgba(255,0,0,0.8), 0 0 60px rgba(255,215,0,0.5);
+    }
+
+    .compare-button:disabled {
+      background: linear-gradient(135deg, #444, #666);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .vs-container {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .vs-player {
+      background: linear-gradient(135deg, rgba(20,30,70,0.9), rgba(40,20,60,0.9));
+      border: 3px solid;
+      padding: 25px;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    .vs-player.left {
+      border-color: #00ffff;
+      box-shadow: 0 0 30px rgba(0,255,255,0.4);
+      clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
+    }
+
+    .vs-player.right {
+      border-color: #ff00ff;
+      box-shadow: 0 0 30px rgba(255,0,255,0.4);
+      clip-path: polygon(5% 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .vs-player.right {
+      animation-name: slideInRight;
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .vs-player-name {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid rgba(255,215,0,0.3);
+    }
+
+    .vs-player.left .vs-player-name {
+      color: #00ffff;
+      text-shadow: 0 0 15px #00ffff;
+    }
+
+    .vs-player.right .vs-player-name {
+      color: #ff00ff;
+      text-shadow: 0 0 15px #ff00ff;
+    }
+
+    .vs-badge {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 3rem;
+      font-weight: bold;
+      color: #ffd700;
+      text-shadow: 
+        0 0 20px #ffd700,
+        0 0 40px #ff0000,
+        0 0 60px #ff6600;
+      animation: vsPulse 1s infinite;
+    }
+
+    @keyframes vsPulse {
+      0%, 100% { 
+        transform: scale(1);
+        text-shadow: 0 0 20px #ffd700, 0 0 40px #ff0000;
+      }
+      50% { 
+        transform: scale(1.1);
+        text-shadow: 0 0 30px #ffd700, 0 0 60px #ff0000, 0 0 80px #ff6600;
+      }
+    }
+
+    .vs-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .vs-stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background: rgba(0,0,0,0.3);
+      border-left: 3px solid #ffd700;
+    }
+
+    .vs-stat-label {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+
+    .vs-stat-value {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #ffd700;
+      text-shadow: 0 0 5px #ffd700;
+    }
+
+    .vs-stat-value.winner {
+      color: #7fff00;
+      text-shadow: 0 0 10px #7fff00;
+      animation: winnerGlow 1.5s infinite;
+    }
+
+    .vs-stat-value.loser {
+      color: #ff4444;
+      text-shadow: 0 0 5px #ff4444;
+    }
+
+    @keyframes winnerGlow {
+      0%, 100% { text-shadow: 0 0 10px #7fff00; }
+      50% { text-shadow: 0 0 20px #7fff00, 0 0 30px #00ff00; }
+    }
+
+    .compare-bar-container {
+      margin-top: 30px;
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(20,30,70,0.8), rgba(40,20,60,0.8));
+      border: 2px solid #ffd700;
+    }
+
+    .compare-bar-title {
+      text-align: center;
+      color: #ffd700;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #ffd700;
+    }
+
+    .compare-bar-row {
+      margin-bottom: 15px;
+    }
+
+    .compare-bar-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+    }
+
+    .compare-bar-label span:first-child {
+      color: #00ffff;
+    }
+
+    .compare-bar-label span:nth-child(2) {
+      color: #aaa;
+    }
+
+    .compare-bar-label span:last-child {
+      color: #ff00ff;
+    }
+
+    .compare-bar {
+      display: flex;
+      height: 25px;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,215,0,0.3);
+      overflow: hidden;
+    }
+
+    .compare-bar-left {
+      background: linear-gradient(90deg, #00ffff, #0088ff);
+      transition: width 1s ease-out;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 5px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: #000;
+    }
+
+    .compare-bar-right {
+      background: linear-gradient(90deg, #ff00ff, #ff0088);
+      transition: width 1s ease-out;
+      display: flex;
+      align-items: center;
+      padding-left: 5px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: #000;
+    }
+
+    .rarity-compare-section {
+      margin-top: 30px;
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(20,30,70,0.8), rgba(40,20,60,0.8));
+      border: 2px solid #ffd700;
+    }
+
+    .rarity-compare-title {
+      text-align: center;
+      color: #ffd700;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #ffd700;
+    }
+
+    .rarity-compare-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .rarity-compare-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 15px;
+      background: rgba(0,0,0,0.3);
+    }
+
+    .rarity-compare-item.left {
+      justify-content: flex-end;
+    }
+
+    .rarity-compare-item.right {
+      justify-content: flex-start;
+    }
+
+    .rarity-compare-value {
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .rarity-compare-value.winner {
+      color: #7fff00;
+      text-shadow: 0 0 5px #7fff00;
+    }
+
+    .rarity-compare-label {
+      padding: 5px 15px;
+      border: 2px solid;
+      font-weight: bold;
+      text-align: center;
+      min-width: 60px;
+    }
+
+    .winner-banner {
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+      background: linear-gradient(135deg, rgba(127,255,0,0.2), rgba(255,215,0,0.2));
+      border: 3px solid #7fff00;
+      animation: winnerBannerPulse 2s infinite;
+    }
+
+    @keyframes winnerBannerPulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(127,255,0,0.5); }
+      50% { box-shadow: 0 0 40px rgba(127,255,0,0.8), 0 0 60px rgba(255,215,0,0.5); }
+    }
+
+    .winner-banner h2 {
+      font-size: 2rem;
+      color: #7fff00;
+      text-shadow: 0 0 20px #7fff00;
+      margin-bottom: 10px;
+    }
+
+    .winner-banner p {
+      color: #ffd700;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 768px) {
+      .vs-container {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .vs-badge {
+        font-size: 2rem;
+        padding: 10px;
+      }
+
+      .vs-player.left,
+      .vs-player.right {
+        clip-path: none;
+      }
+
+      .compare-selector {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .player-select-box {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+
     .items-list {
       display: grid;
       gap: 15px;
@@ -599,6 +987,7 @@
   <button class="tab" data-tab="damage">💥 最大ダメージ</button>
   <button class="tab" data-tab="skills">✨ スキル数</button>
   <button class="tab" data-tab="skill-owners">📊 スキル所持状況</button>
+  <button class="tab" data-tab="compare">🆚 プレイヤー比較</button>
 </div>
 
     <div id="content">
@@ -678,6 +1067,12 @@
       // スキル所持状況の場合は別の関数を呼び出す
       if (type === 'skill-owners') {
         showSkillOwners();
+        return;
+      }
+
+      // プレイヤー比較の場合は別の関数を呼び出す
+      if (type === 'compare') {
+        showCompare();
         return;
       }
 
@@ -1107,6 +1502,353 @@
         'N': '#888'
       };
       return colors[rarity] || '#888';
+    }
+
+    // プレイヤー比較機能
+    let comparePlayer1 = '';
+    let comparePlayer2 = '';
+    let compareSortType = 'prestige'; // デフォルトはプレステージ順
+
+    async function showCompare() {
+      // プレイヤーデータを読み込む（まだ読み込まれていない場合）
+      if (!playerData) {
+        try {
+          const response = await fetch('players_detail.json?t=' + Date.now());
+          const data = await response.json();
+          playerData = data.players;
+        } catch (error) {
+          document.getElementById('content').innerHTML =
+            '<div class="loading">❌ プレイヤーデータの読み込みに失敗しました</div>';
+          return;
+        }
+      }
+
+      // ランキングデータを読み込む（まだ読み込まれていない場合）
+      if (!rankingData) {
+        try {
+          const response = await fetch('ranking.json?t=' + Date.now());
+          rankingData = await response.json();
+        } catch (error) {
+          document.getElementById('content').innerHTML =
+            '<div class="loading">❌ ランキングデータの読み込みに失敗しました</div>';
+          return;
+        }
+      }
+
+      // プレイヤー名一覧を並び順に応じてソート
+      const sortedPlayers = getSortedPlayersForCompare();
+
+      let html = '<div class="compare-container">';
+      html += '<div class="ranking-card">';
+      html += '<div style="text-align: center; margin-bottom: 20px;">';
+      html += '<h2 style="color: #ffd700; text-shadow: 0 0 15px #ffd700; margin-bottom: 10px;">🆚 プレイヤー比較</h2>';
+      html += '<p style="color: #aaa;">2人のプレイヤーを選んで、ステータスを比較しよう！</p>';
+      html += '</div>';
+
+      // 並び順選択ボタン
+      html += '<div style="margin-bottom: 20px;">';
+      html += '<div style="text-align: center; color: #aaa; margin-bottom: 10px; font-size: 0.9rem;">プレイヤーリストの並び順</div>';
+      html += '<div class="filter-tags" style="justify-content: center;">';
+      const sortOptions = [
+        { key: 'prestige', label: '⚡ プレステージ' },
+        { key: 'attack', label: '⚔️ 最高攻撃力' },
+        { key: 'damage', label: '💥 最大ダメージ' },
+        { key: 'skills', label: '✨ スキル数' }
+      ];
+      sortOptions.forEach(opt => {
+        const active = compareSortType === opt.key ? 'active' : '';
+        html += `<button class="filter-tag ${active}" onclick="changeCompareSortType('${opt.key}')">${opt.label}</button>`;
+      });
+      html += '</div>';
+      html += '</div>';
+
+      html += '<div class="compare-selector">';
+      
+      // プレイヤー1選択
+      html += '<div class="player-select-box">';
+      html += '<h3>🔵 プレイヤー1</h3>';
+      html += '<select id="compare-player1" onchange="updateComparePlayer(1, this.value)">';
+      html += '<option value="">-- 選択してください --</option>';
+      sortedPlayers.forEach(p => {
+        const selected = comparePlayer1 === p.name ? 'selected' : '';
+        html += `<option value="${p.name}" ${selected}>${p.name} (${p.value.toLocaleString()})</option>`;
+      });
+      html += '</select>';
+      html += '</div>';
+
+      // プレイヤー2選択
+      html += '<div class="player-select-box">';
+      html += '<h3>🟣 プレイヤー2</h3>';
+      html += '<select id="compare-player2" onchange="updateComparePlayer(2, this.value)">';
+      html += '<option value="">-- 選択してください --</option>';
+      sortedPlayers.forEach(p => {
+        const selected = comparePlayer2 === p.name ? 'selected' : '';
+        html += `<option value="${p.name}" ${selected}>${p.name} (${p.value.toLocaleString()})</option>`;
+      });
+      html += '</select>';
+      html += '</div>';
+
+      html += '</div>';
+
+      // 比較ボタン
+      const buttonDisabled = !comparePlayer1 || !comparePlayer2 || comparePlayer1 === comparePlayer2 ? 'disabled' : '';
+      html += '<div style="text-align: center; margin: 20px 0;">';
+      html += `<button class="compare-button" onclick="executeCompare()" ${buttonDisabled}>⚔️ バトル開始！</button>`;
+      html += '</div>';
+
+      html += '</div>'; // ranking-card
+
+      // 比較結果エリア
+      html += '<div id="compare-result"></div>';
+
+      html += '</div>'; // compare-container
+
+      document.getElementById('content').innerHTML = html;
+
+      // 既に両方選択されている場合は比較結果を表示
+      if (comparePlayer1 && comparePlayer2 && comparePlayer1 !== comparePlayer2) {
+        executeCompare();
+      }
+    }
+
+    function updateComparePlayer(playerNum, value) {
+      if (playerNum === 1) {
+        comparePlayer1 = value;
+      } else {
+        comparePlayer2 = value;
+      }
+
+      // ボタンの状態を更新
+      const button = document.querySelector('.compare-button');
+      if (button) {
+        button.disabled = !comparePlayer1 || !comparePlayer2 || comparePlayer1 === comparePlayer2;
+      }
+    }
+
+    function getSortedPlayersForCompare() {
+      // ランキングデータから指定された並び順でプレイヤーリストを取得
+      const rankings = rankingData.rankings[compareSortType];
+      
+      if (!rankings) {
+        // フォールバック: プレイヤーデータから名前順で返す
+        return Object.keys(playerData).map(name => ({
+          name: name,
+          value: 0
+        })).sort((a, b) => a.name.localeCompare(b.name, 'ja'));
+      }
+
+      return rankings.map(r => ({
+        name: r.name,
+        value: r.value
+      }));
+    }
+
+    function changeCompareSortType(sortType) {
+      compareSortType = sortType;
+      showCompare();
+    }
+
+    function executeCompare() {
+      if (!comparePlayer1 || !comparePlayer2 || comparePlayer1 === comparePlayer2) return;
+
+      const p1 = playerData[comparePlayer1];
+      const p2 = playerData[comparePlayer2];
+
+      if (!p1 || !p2) return;
+
+      // 各ステータスを計算
+      const stats1 = calculatePlayerStats(p1);
+      const stats2 = calculatePlayerStats(p2);
+
+      let html = '';
+
+      // VS画面
+      html += '<div class="vs-container">';
+
+      // プレイヤー1
+      html += '<div class="vs-player left">';
+      html += `<div class="vs-player-name">${comparePlayer1}</div>`;
+      html += '<div class="vs-stats">';
+      html += renderVsStat('プレステージ', stats1.prestige, stats2.prestige);
+      html += renderVsStat('レベル', stats1.level, stats2.level);
+      html += renderVsStat('基礎攻撃力', stats1.baseAttack, stats2.baseAttack);
+      html += renderVsStat('総合攻撃力', stats1.totalAttack, stats2.totalAttack);
+      html += renderVsStat('スキル数', stats1.skillCount, stats2.skillCount);
+      html += renderVsStat('装備数', stats1.equipmentCount, stats2.equipmentCount);
+      html += '</div>';
+      html += '</div>';
+
+      // VS
+      html += '<div class="vs-badge">VS</div>';
+
+      // プレイヤー2
+      html += '<div class="vs-player right">';
+      html += `<div class="vs-player-name">${comparePlayer2}</div>`;
+      html += '<div class="vs-stats">';
+      html += renderVsStat('プレステージ', stats2.prestige, stats1.prestige, true);
+      html += renderVsStat('レベル', stats2.level, stats1.level, true);
+      html += renderVsStat('基礎攻撃力', stats2.baseAttack, stats1.baseAttack, true);
+      html += renderVsStat('総合攻撃力', stats2.totalAttack, stats1.totalAttack, true);
+      html += renderVsStat('スキル数', stats2.skillCount, stats1.skillCount, true);
+      html += renderVsStat('装備数', stats2.equipmentCount, stats1.equipmentCount, true);
+      html += '</div>';
+      html += '</div>';
+
+      html += '</div>'; // vs-container
+
+      // バー比較（スキルによる補正値合計）
+      html += '<div class="compare-bar-container">';
+      html += '<div class="compare-bar-title">📊 スキルによる補正値合計比較</div>';
+      html += renderCompareBar('攻撃', stats1.skillBonus.attack, stats2.skillBonus.attack, comparePlayer1, comparePlayer2);
+      html += renderCompareBar('経験値ボーナス', stats1.skillBonus.expBonus, stats2.skillBonus.expBonus, comparePlayer1, comparePlayer2);
+      html += renderCompareBar('クリティカル率', stats1.skillBonus.critRate, stats2.skillBonus.critRate, comparePlayer1, comparePlayer2, true);
+      html += renderCompareBar('経験値クリティカル', stats1.skillBonus.expCrit, stats2.skillBonus.expCrit, comparePlayer1, comparePlayer2, true);
+      html += renderCompareBar('攻撃追加率', stats1.skillBonus.addAttackRate, stats2.skillBonus.addAttackRate, comparePlayer1, comparePlayer2, true);
+      html += renderCompareBar('ドロップ率', stats1.skillBonus.dropRate, stats2.skillBonus.dropRate, comparePlayer1, comparePlayer2, true);
+      html += renderCompareBar('攻撃成長', stats1.skillBonus.attackGrowth, stats2.skillBonus.attackGrowth, comparePlayer1, comparePlayer2);
+      html += '</div>';
+
+      // レアリティ別スキル比較
+      html += '<div class="rarity-compare-section">';
+      html += '<div class="rarity-compare-title">✨ レアリティ別スキル比較</div>';
+      html += '<div class="rarity-compare-grid">';
+      
+      const allRarities = ['EX', 'GR', 'MR', 'LR', 'UR', 'SR', 'R', 'N'];
+      allRarities.forEach(rarity => {
+        const count1 = stats1.skillsByRarity[rarity] || 0;
+        const count2 = stats2.skillsByRarity[rarity] || 0;
+        const winner1 = count1 > count2 ? 'winner' : '';
+        const winner2 = count2 > count1 ? 'winner' : '';
+        
+        html += `<div class="rarity-compare-item left"><span class="rarity-compare-value ${winner1}">${count1}</span></div>`;
+        html += `<div class="rarity-compare-label rarity-${rarity}" style="border-color: ${getRarityColor(rarity)}; color: ${getRarityColor(rarity)}">${rarity}</div>`;
+        html += `<div class="rarity-compare-item right"><span class="rarity-compare-value ${winner2}">${count2}</span></div>`;
+      });
+      
+      html += '</div>';
+      html += '</div>';
+
+      // 勝者判定（総合攻撃力ベース）
+      const winner = stats1.totalAttack > stats2.totalAttack ? comparePlayer1 : 
+                     stats2.totalAttack > stats1.totalAttack ? comparePlayer2 : null;
+      
+      if (winner) {
+        const winnerStats = winner === comparePlayer1 ? stats1 : stats2;
+        const loserStats = winner === comparePlayer1 ? stats2 : stats1;
+        const diff = winnerStats.totalAttack - loserStats.totalAttack;
+        
+        html += '<div class="winner-banner">';
+        html += `<h2>🏆 ${winner} の勝利！</h2>`;
+        html += `<p>総合攻撃力で ${diff.toLocaleString()} ポイントの差をつけました！</p>`;
+        html += '</div>';
+      } else {
+        html += '<div class="winner-banner" style="border-color: #ffd700;">';
+        html += '<h2 style="color: #ffd700;">⚔️ 引き分け！</h2>';
+        html += '<p>両者の総合攻撃力は同じです！</p>';
+        html += '</div>';
+      }
+
+      document.getElementById('compare-result').innerHTML = html;
+    }
+
+    function calculatePlayerStats(player) {
+      const skillsTotal = player.skills.reduce((sum, item) => sum + (item.count || 1), 0);
+      const equipmentTotal = player.equipment.reduce((sum, item) => sum + (item.count || 1), 0);
+
+      const skillAttackBonus = player.skills.reduce((sum, item) => {
+        const count = item.count || 1;
+        return sum + (item.attack > 0 ? item.attack * count : 0);
+      }, 0);
+
+      const equipmentAttackBonus = player.equipment.reduce((sum, item) => {
+        const count = item.count || 1;
+        return sum + (item.attack > 0 ? item.attack * count : 0);
+      }, 0);
+
+      // スキルによる補正値を計算
+      const skillBonus = {
+        attack: 0,
+        expBonus: 0,
+        critRate: 0,
+        expCrit: 0,
+        addAttackRate: 0,
+        dropRate: 0,
+        attackGrowth: 0
+      };
+
+      player.skills.forEach(item => {
+        const count = item.count || 1;
+        if (item.attack > 0) skillBonus.attack += item.attack * count;
+        if (item.expBonus > 0) skillBonus.expBonus += item.expBonus * count;
+        if (item.critRate > 0) skillBonus.critRate += item.critRate * count;
+        if (item.effect && item.effect.includes('経験値クリティカル')) skillBonus.expCrit += count;
+        if (item.addAttackRate > 0) skillBonus.addAttackRate += item.addAttackRate * count;
+        if (item.dropRate > 0) skillBonus.dropRate += item.dropRate * count;
+        if (item.attackGrowth > 0) skillBonus.attackGrowth += item.attackGrowth * count;
+      });
+
+      const critRate = skillBonus.critRate + player.equipment.reduce((sum, item) => {
+        const count = item.count || 1;
+        return sum + (item.critRate > 0 ? item.critRate * count : 0);
+      }, 0);
+
+      // レアリティ別スキル数
+      const skillsByRarity = {};
+      player.skills.forEach(skill => {
+        const count = skill.count || 1;
+        skillsByRarity[skill.rarity] = (skillsByRarity[skill.rarity] || 0) + count;
+      });
+
+      return {
+        prestige: player.prestigeCount,
+        level: player.level,
+        baseAttack: player.attack,
+        totalAttack: player.attack + skillAttackBonus + equipmentAttackBonus,
+        skillCount: skillsTotal,
+        equipmentCount: equipmentTotal,
+        critRate: critRate,
+        skillsByRarity: skillsByRarity,
+        skillBonus: skillBonus
+      };
+    }
+
+    function renderVsStat(label, value, otherValue, isRight = false) {
+      let winClass = '';
+      if (value > otherValue) {
+        winClass = 'winner';
+      } else if (value < otherValue) {
+        winClass = 'loser';
+      }
+
+      return `
+        <div class="vs-stat-row">
+          <span class="vs-stat-label">${label}</span>
+          <span class="vs-stat-value ${winClass}">${typeof value === 'number' && !Number.isInteger(value) ? value.toFixed(2) + '%' : value.toLocaleString()}</span>
+        </div>
+      `;
+    }
+
+    function renderCompareBar(label, value1, value2, name1, name2, isPercent = false) {
+      const total = value1 + value2;
+      const percent1 = total > 0 ? (value1 / total * 100) : 50;
+      const percent2 = total > 0 ? (value2 / total * 100) : 50;
+      
+      const displayValue1 = isPercent ? value1.toFixed(2) + '%' : value1.toLocaleString();
+      const displayValue2 = isPercent ? value2.toFixed(2) + '%' : value2.toLocaleString();
+
+      return `
+        <div class="compare-bar-row">
+          <div class="compare-bar-label">
+            <span>${displayValue1}</span>
+            <span>${label}</span>
+            <span>${displayValue2}</span>
+          </div>
+          <div class="compare-bar">
+            <div class="compare-bar-left" style="width: ${percent1}%">${percent1 > 15 ? displayValue1 : ''}</div>
+            <div class="compare-bar-right" style="width: ${percent2}%">${percent2 > 15 ? displayValue2 : ''}</div>
+          </div>
+        </div>
+      `;
     }
 
     document.querySelectorAll('.tab').forEach(tab => {
