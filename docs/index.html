@@ -1764,17 +1764,17 @@
         html += `<div class="item-name">🐾 ${servant.name} <span style="color: #ffd700; font-weight: bold;">×${servant.count}</span></div>`;
         html += '</div>';
 
-        // バフ効果を表示
-        if (Object.keys(buffs).length > 0) {
-          html += '<div class="item-stats">';
-          if (buffs.attack) html += `<div class="item-stat">攻撃: +${buffs.attack * servant.count}</div>`;
-          if (buffs.expBonus) html += `<div class="item-stat">経験値: +${buffs.expBonus * servant.count}</div>`;
-          if (buffs.critRate) html += `<div class="item-stat">クリティカル率: +${(buffs.critRate * servant.count).toFixed(2)}%</div>`;
-          if (buffs.expCrit) html += `<div class="item-stat">経験値クリティカル: +${(buffs.expCrit * servant.count).toFixed(2)}%</div>`;
-          if (buffs.addAttackRate) html += `<div class="item-stat">攻撃追加率: +${(buffs.addAttackRate * servant.count).toFixed(2)}%</div>`;
-          if (buffs.attackGrowth) html += `<div class="item-stat">攻撃成長: +${buffs.attackGrowth * servant.count}</div>`;
-          html += '</div>';
-        }
+        // バフ効果を表示（1体あたり）
+if (Object.keys(buffs).length > 0) {
+  html += '<div class="item-stats">';
+  if (buffs.attack) html += `<div class="item-stat">攻撃: +${buffs.attack}</div>`;
+  if (buffs.expBonus) html += `<div class="item-stat">経験値ボーナス: +${buffs.expBonus}</div>`;
+  if (buffs.critRate) html += `<div class="item-stat">クリティカル率: +${buffs.critRate}%</div>`;
+  if (buffs.expCrit) html += `<div class="item-stat">経験値クリティカル: +${buffs.expCrit}%</div>`;
+  if (buffs.addAttackRate) html += `<div class="item-stat">攻撃追加率: +${buffs.addAttackRate}%</div>`;
+  if (buffs.attackGrowth) html += `<div class="item-stat">攻撃成長: +${buffs.attackGrowth}</div>`;
+  html += '</div>';
+}
 
         html += '</div>';
       });
