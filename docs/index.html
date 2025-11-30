@@ -1377,7 +1377,7 @@
           if (buffs.critRate) buffTexts.push(`クリティカル率+${buffs.critRate}%`);
           if (buffs.expCrit) buffTexts.push(`経験値クリティカル+${buffs.expCrit}%`);
           if (buffs.addAttackRate) buffTexts.push(`攻撃追加率+${buffs.addAttackRate}%`);
-          if (buffs.attackGrowth) buffTexts.push(`攻撃成長+${buffs.attackGrowth}`);
+          if (buffs.attackGrowth) buffTexts.push(`Lvアップ時攻撃上昇値+${buffs.attackGrowth}`);
           html += buffTexts.join(', ');
           html += '</div>';
         }
@@ -1581,7 +1581,7 @@
       if (bonuses.expCrit > 0) html += `<div class="bonus-item"><span class="bonus-label">経験値クリティカル:</span> <span class="bonus-value">+${bonuses.expCrit.toFixed(2)}%</span></div>`;
       if (bonuses.addAttackRate > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃追加率:</span> <span class="bonus-value">+${bonuses.addAttackRate.toFixed(2)}%</span></div>`;
       if (bonuses.dropRate > 0) html += `<div class="bonus-item"><span class="bonus-label">ドロップ率:</span> <span class="bonus-value">+${bonuses.dropRate.toFixed(2)}%</span></div>`;
-      if (bonuses.attackGrowth > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃成長:</span> <span class="bonus-value">+${bonuses.attackGrowth.toLocaleString()}</span></div>`;
+      if (bonuses.attackGrowth > 0) html += `<div class="bonus-item"><span class="bonus-label">Lvアップ時攻撃上昇値:</span> <span class="bonus-value">+${bonuses.attackGrowth.toLocaleString()}</span></div>`;
       return html || '<div style="text-align: center; color: #aaa;">補正値なし</div>';
     }
 
@@ -1662,7 +1662,7 @@
         if (bonusTotal.expCrit > 0) html += `<div class="bonus-item"><span class="bonus-label">経験値クリティカル:</span> <span class="bonus-value">+${bonusTotal.expCrit.toFixed(2)}%</span></div>`;
         if (bonusTotal.addAttackRate > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃追加率:</span> <span class="bonus-value">+${bonusTotal.addAttackRate.toFixed(2)}%</span></div>`;
         if (bonusTotal.dropRate > 0) html += `<div class="bonus-item"><span class="bonus-label">ドロップ率:</span> <span class="bonus-value">+${bonusTotal.dropRate.toFixed(2)}%</span></div>`;
-        if (bonusTotal.attackGrowth > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃成長:</span> <span class="bonus-value">+${bonusTotal.attackGrowth.toLocaleString()}</span></div>`;
+        if (bonusTotal.attackGrowth > 0) html += `<div class="bonus-item"><span class="bonus-label">Lvアップ時攻撃上昇値:</span> <span class="bonus-value">+${bonusTotal.attackGrowth.toLocaleString()}</span></div>`;
       } else {
         if (bonusTotal.attack > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃:</span> <span class="bonus-value">+${bonusTotal.attack.toLocaleString()}</span></div>`;
         if (bonusTotal.critRate > 0) html += `<div class="bonus-item"><span class="bonus-label">クリティカル率:</span> <span class="bonus-value">+${bonusTotal.critRate.toFixed(2)}%</span></div>`;
@@ -1743,7 +1743,7 @@
       if (bonusTotal.critRate > 0) html += `<div class="bonus-item"><span class="bonus-label">クリティカル率:</span> <span class="bonus-value">+${bonusTotal.critRate.toFixed(2)}%</span></div>`;
       if (bonusTotal.expCrit > 0) html += `<div class="bonus-item"><span class="bonus-label">経験値クリティカル:</span> <span class="bonus-value">+${bonusTotal.expCrit.toFixed(2)}%</span></div>`;
       if (bonusTotal.addAttackRate > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃追加率:</span> <span class="bonus-value">+${bonusTotal.addAttackRate.toFixed(2)}%</span></div>`;
-      if (bonusTotal.attackGrowth > 0) html += `<div class="bonus-item"><span class="bonus-label">攻撃成長:</span> <span class="bonus-value">+${bonusTotal.attackGrowth.toLocaleString()}</span></div>`;
+      if (bonusTotal.attackGrowth > 0) html += `<div class="bonus-item"><span class="bonus-label">Lvアップ時攻撃上昇値:</span> <span class="bonus-value">+${bonusTotal.attackGrowth.toLocaleString()}</span></div>`;
       html += '</div>';
       html += '</div>';
 
@@ -1772,7 +1772,7 @@ if (Object.keys(buffs).length > 0) {
   if (buffs.critRate) html += `<div class="item-stat">クリティカル率: +${buffs.critRate}%</div>`;
   if (buffs.expCrit) html += `<div class="item-stat">経験値クリティカル: +${buffs.expCrit}%</div>`;
   if (buffs.addAttackRate) html += `<div class="item-stat">攻撃追加率: +${buffs.addAttackRate}%</div>`;
-  if (buffs.attackGrowth) html += `<div class="item-stat">攻撃成長: +${buffs.attackGrowth}</div>`;
+  if (buffs.attackGrowth) html += `<div class="item-stat">Lvアップ時攻撃上昇値: +${buffs.attackGrowth}</div>`;
   html += '</div>';
 }
 
@@ -1800,7 +1800,7 @@ if (Object.keys(buffs).length > 0) {
           { key: 'expCrit', label: '経験値クリティカル' },
           { key: 'addAttackRate', label: '攻撃追加率' },
           { key: 'dropRate', label: 'ドロップ率' },
-          { key: 'attackGrowth', label: '攻撃成長' }
+          { key: 'attackGrowth', label: 'Lvアップ時攻撃上昇値' }
         ];
       }
     }
@@ -1854,7 +1854,7 @@ if (Object.keys(buffs).length > 0) {
       if (item.expBonus > 0) html += `<div class="item-stat">経験値: ${item.expBonus}</div>`;
       if (item.dropRate > 0) html += `<div class="item-stat">ドロップ率: ${item.dropRate}%</div>`;
       if (item.addAttackRate > 0) html += `<div class="item-stat">攻撃追加率: ${item.addAttackRate}%</div>`;
-      if (item.attackGrowth > 0) html += `<div class="item-stat">攻撃成長: ${item.attackGrowth}</div>`;
+      if (item.attackGrowth > 0) html += `<div class="item-stat">Lvアップ時攻撃上昇値: ${item.attackGrowth}</div>`;
       if (item.rate) html += `<div class="item-stat">出現率: ${item.rate}%</div>`;
       html += '</div>';
 
@@ -2097,7 +2097,7 @@ if (Object.keys(buffs).length > 0) {
       html += renderCompareBar('経験値クリティカル', stats1.skillBonus.expCrit, stats2.skillBonus.expCrit, comparePlayer1, comparePlayer2, true);
       html += renderCompareBar('攻撃追加率', stats1.skillBonus.addAttackRate, stats2.skillBonus.addAttackRate, comparePlayer1, comparePlayer2, true);
       html += renderCompareBar('ドロップ率', stats1.skillBonus.dropRate, stats2.skillBonus.dropRate, comparePlayer1, comparePlayer2, true);
-      html += renderCompareBar('攻撃成長', stats1.skillBonus.attackGrowth, stats2.skillBonus.attackGrowth, comparePlayer1, comparePlayer2);
+      html += renderCompareBar('Lvアップ時攻撃上昇値', stats1.skillBonus.attackGrowth, stats2.skillBonus.attackGrowth, comparePlayer1, comparePlayer2);
       html += '</div>';
 
       // レアリティ別スキル比較
