@@ -43,9 +43,9 @@
     "dragonHP": 100
   },
   "popo_tin": {
-    "level": 108,
-    "exp": 467,
-    "attack": 429,
+    "level": 109,
+    "exp": 489,
+    "attack": 433,
     "equipment": [
       {
         "name": "竜殺しの ソード（LR）",
@@ -6775,101 +6775,10 @@
     ]
   },
   "ちのお": {
-    "level": 173,
-    "exp": 1558,
-    "attack": 863,
-    "equipment": [
-      {
-        "name": "竜殺しの ソード（LR）",
-        "rarity": "LR",
-        "rate": 2,
-        "attack": 15,
-        "critRate": 2.879710050476475,
-        "dropRate": 0,
-        "addAttackRate": 1.1201234968552127
-      },
-      {
-        "name": "古びた アックス（N）",
-        "rarity": "N",
-        "rate": 40,
-        "attack": 1,
-        "critRate": 0,
-        "dropRate": 0,
-        "addAttackRate": 0
-      },
-      {
-        "name": "鋭い ロッド（R）",
-        "rarity": "R",
-        "rate": 30,
-        "attack": 3,
-        "critRate": 0,
-        "dropRate": 0,
-        "addAttackRate": 0
-      },
-      {
-        "name": "伝説の ロッド（LR）",
-        "rarity": "LR",
-        "rate": 2,
-        "attack": 16,
-        "critRate": 2.684007343460819,
-        "dropRate": 0,
-        "addAttackRate": 0.5309958975986433
-      },
-      {
-        "name": "竜殺しの ランス（LR）",
-        "rarity": "LR",
-        "rate": 2,
-        "attack": 18,
-        "critRate": 2.2728981449797234,
-        "dropRate": 0,
-        "addAttackRate": 1.1336540140934719
-      },
-      {
-        "name": "錆びた ボウ（N）",
-        "rarity": "N",
-        "rate": 40,
-        "attack": 1,
-        "critRate": 0,
-        "dropRate": 0,
-        "addAttackRate": 0
-      },
-      {
-        "name": "竜殺しの アックス（LR）",
-        "rarity": "LR",
-        "rate": 2,
-        "attack": 18,
-        "critRate": 2.5862437574877832,
-        "dropRate": 0,
-        "addAttackRate": 1.1176739297234912
-      },
-      {
-        "name": "鉄の ロッド（N）",
-        "rarity": "N",
-        "rate": 40,
-        "attack": 2,
-        "critRate": 0,
-        "dropRate": 0,
-        "addAttackRate": 0
-      },
-      {
-        "name": "迅速な ダガー（SR）",
-        "rarity": "SR",
-        "rate": 20,
-        "attack": 6,
-        "critRate": 1.2741646016393942,
-        "dropRate": 0,
-        "addAttackRate": 0
-      },
-      {
-        "name": "魔導の アックス（SR）",
-        "rarity": "SR",
-        "rate": 20,
-        "attack": 9,
-        "critRate": 0.5064843538141031,
-        "dropRate": 0,
-        "addAttackRate": 0
-      }
-    ],
+    "level": 1,
+    "exp": 0,
+    "attack": 1,
+    "equipment": [],
     "skills": [
       {
         "rarity": "SR",
@@ -11098,10 +11007,17 @@
         "effect": "Lvアップ時攻撃上昇値＋1",
         "attackGrowth": 1,
         "rate": 0.5
+      },
+      {
+        "rarity": "N",
+        "name": "斬撃の心得",
+        "effect": "攻撃＋1",
+        "attack": 1,
+        "rate": 21
       }
     ],
-    "prestigeCount": 32,
-    "dragonHP": 3300,
+    "prestigeCount": 33,
+    "dragonHP": 3400,
     "cooldowns": {
       "slime": 0,
       "skeleton": 0
@@ -11113,9 +11029,9 @@
     ]
   },
   "caramel_39": {
-    "level": 135,
-    "exp": 1231,
-    "attack": 269,
+    "level": 136,
+    "exp": 279,
+    "attack": 271,
     "equipment": [
       {
         "name": "伝説の アックス（LR）",
@@ -18347,9 +18263,9 @@
     "maxDamage": 0
   },
   "aloex_": {
-    "level": 26,
-    "exp": 220,
-    "attack": 76,
+    "level": 30,
+    "exp": 162,
+    "attack": 88,
     "equipment": [
       {
         "name": "魔導の ソード（SR）",
@@ -25455,9 +25371,9 @@
     "servants": []
   },
   "bashouuu": {
-    "level": 134,
-    "exp": 1206,
-    "attack": 666,
+    "level": 156,
+    "exp": 1470,
+    "attack": 776,
     "equipment": [
       {
         "name": "竜殺しの ソード（LR）",
@@ -25530,6 +25446,15 @@
         "critRate": 3.364002969904055,
         "dropRate": 0,
         "addAttackRate": 0.6176584876967955
+      },
+      {
+        "name": "竜殺しの アックス（LR）",
+        "rarity": "LR",
+        "rate": 2,
+        "attack": 19,
+        "critRate": 2.2475943298298855,
+        "dropRate": 0,
+        "addAttackRate": 0.576223954136528
       }
     ],
     "skills": [
@@ -30061,6 +29986,13 @@
         "effect": "攻撃追加率＋10%",
         "addAttackRate": 10,
         "rate": 0.0267
+      },
+      {
+        "rarity": "SR",
+        "name": "ひらめきの瞬間",
+        "effect": "経験値クリティカル＋1%",
+        "expCrit": 1,
+        "rate": 7.5
       }
     ],
     "prestigeCount": 54,
@@ -30077,9 +30009,9 @@
     ]
   },
   "gagaea": {
-    "level": 59,
-    "exp": 363,
-    "attack": 59,
+    "level": 62,
+    "exp": 521,
+    "attack": 62,
     "equipment": [
       {
         "name": "迅速な ソード（SR）",
@@ -30113,6 +30045,24 @@
         "rarity": "R",
         "rate": 30,
         "attack": 3,
+        "critRate": 0,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "錆びた ボウ（N）",
+        "rarity": "N",
+        "rate": 40,
+        "attack": 2,
+        "critRate": 0,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "錆びた ダガー（N）",
+        "rarity": "N",
+        "rate": 40,
+        "attack": 2,
         "critRate": 0,
         "dropRate": 0,
         "addAttackRate": 0
@@ -32621,9 +32571,9 @@
     ]
   },
   "takutt": {
-    "level": 82,
-    "exp": 385,
-    "attack": 244,
+    "level": 83,
+    "exp": 766,
+    "attack": 247,
     "equipment": [
       {
         "name": "竜殺しの ソード（LR）",
@@ -42178,9 +42128,9 @@
     "servants": []
   },
   "じょぉー": {
-    "level": 160,
-    "exp": 48,
-    "attack": 796,
+    "level": 162,
+    "exp": 1580,
+    "attack": 806,
     "equipment": [
       {
         "name": "頑丈な ロッド（R）",
@@ -42298,6 +42248,15 @@
         "critRate": 3.7228734368378147,
         "dropRate": 0,
         "addAttackRate": 0.7041546075159885
+      },
+      {
+        "name": "古びた ダガー（N）",
+        "rarity": "N",
+        "rate": 40,
+        "attack": 2,
+        "critRate": 0,
+        "dropRate": 0,
+        "addAttackRate": 0
       }
     ],
     "skills": [
@@ -58486,9 +58445,9 @@
     ]
   },
   "puripuricute": {
-    "level": 60,
-    "exp": 462,
-    "attack": 178,
+    "level": 63,
+    "exp": 456,
+    "attack": 187,
     "equipment": [
       {
         "name": "伝説の ランス（LR）",
@@ -61078,9 +61037,9 @@
     ]
   },
   "wphagi": {
-    "level": 43,
-    "exp": 147,
-    "attack": 127,
+    "level": 47,
+    "exp": 265,
+    "attack": 139,
     "equipment": [
       {
         "name": "頑丈な ロッド（R）",
@@ -65351,7 +65310,7 @@
   },
   "てるる24": {
     "level": 55,
-    "exp": 235,
+    "exp": 309,
     "attack": 108,
     "equipment": [
       {
@@ -65362,6 +65321,15 @@
         "critRate": 2.7615343145844413,
         "dropRate": 0,
         "addAttackRate": 0.8427234999473845
+      },
+      {
+        "name": "鋭い ランス（R）",
+        "rarity": "R",
+        "rate": 30,
+        "attack": 4,
+        "critRate": 0,
+        "dropRate": 0,
+        "addAttackRate": 0
       }
     ],
     "skills": [
@@ -65638,7 +65606,7 @@
       "slime": 0,
       "skeleton": 0
     },
-    "maxAttack": 148,
+    "maxAttack": 152,
     "maxDamage": 129,
     "servants": []
   },
@@ -68341,9 +68309,9 @@
     "servants": []
   },
   "りざーす": {
-    "level": 87,
-    "exp": 405,
-    "attack": 173,
+    "level": 90,
+    "exp": 225,
+    "attack": 179,
     "equipment": [
       {
         "name": "魔導の ランス（SR）",
@@ -68379,6 +68347,24 @@
         "attack": 11,
         "critRate": 2.602024334264006,
         "dropRate": 1.471811300838565,
+        "addAttackRate": 0
+      },
+      {
+        "name": "鉄の ボウ（N）",
+        "rarity": "N",
+        "rate": 40,
+        "attack": 2,
+        "critRate": 0,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "古びた ソード（N）",
+        "rarity": "N",
+        "rate": 40,
+        "attack": 1,
+        "critRate": 0,
+        "dropRate": 0,
         "addAttackRate": 0
       }
     ],
@@ -77558,7 +77544,7 @@
   },
   "きーうぃ": {
     "level": 107,
-    "exp": 644,
+    "exp": 1018,
     "attack": 150,
     "equipment": [
       {
@@ -77611,6 +77597,15 @@
         "rarity": "N",
         "rate": 40,
         "attack": 2,
+        "critRate": 0,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "古びた ボウ（N）",
+        "rarity": "N",
+        "rate": 40,
+        "attack": 1,
         "critRate": 0,
         "dropRate": 0,
         "addAttackRate": 0
@@ -81975,10 +81970,29 @@
     "maxDamage": 159
   },
   "fatman029": {
-    "level": 1,
-    "exp": 0,
-    "attack": 1,
-    "equipment": [],
+    "level": 55,
+    "exp": 323,
+    "attack": 163,
+    "equipment": [
+      {
+        "name": "精製された ソード（SR）",
+        "rarity": "SR",
+        "rate": 20,
+        "attack": 8,
+        "critRate": 0.9482518350896434,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "竜殺しの ソード（LR）",
+        "rarity": "LR",
+        "rate": 2,
+        "attack": 16,
+        "critRate": 3.691434373663525,
+        "dropRate": 0,
+        "addAttackRate": 1.15381757286776
+      }
+    ],
     "skills": [
       {
         "rarity": "SR",
@@ -82889,6 +82903,13 @@
         "effect": "経験値ボーナス＋2",
         "expBonus": 2,
         "rate": 17.5
+      },
+      {
+        "rarity": "SR",
+        "name": "閃光の一撃",
+        "effect": "クリティカル率＋1%",
+        "critRate": 1,
+        "rate": 7.5
       }
     ],
     "prestigeCount": 8,
@@ -82904,9 +82925,9 @@
     ]
   },
   "maffuJP": {
-    "level": 31,
-    "exp": 42,
-    "attack": 151,
+    "level": 36,
+    "exp": 154,
+    "attack": 176,
     "equipment": [
       {
         "name": "鉄の ランス（N）",
@@ -82931,6 +82952,15 @@
         "rarity": "R",
         "rate": 30,
         "attack": 4,
+        "critRate": 0,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "頑丈な ロッド（R）",
+        "rarity": "R",
+        "rate": 30,
+        "attack": 3,
         "critRate": 0,
         "dropRate": 0,
         "addAttackRate": 0
@@ -86107,7 +86137,7 @@
   },
   "zawa0525": {
     "level": 56,
-    "exp": 63,
+    "exp": 385,
     "attack": 56,
     "equipment": [
       {
@@ -94433,15 +94463,24 @@
     "servants": []
   },
   "ムニム": {
-    "level": 22,
-    "exp": 140,
-    "attack": 85,
+    "level": 30,
+    "exp": 64,
+    "attack": 117,
     "equipment": [
       {
         "name": "軽量な ソード（R）",
         "rarity": "R",
         "rate": 30,
         "attack": 3,
+        "critRate": 0,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "錆びた アックス（N）",
+        "rarity": "N",
+        "rate": 40,
+        "attack": 1,
         "critRate": 0,
         "dropRate": 0,
         "addAttackRate": 0
@@ -98903,9 +98942,9 @@
     "servants": []
   },
   "あず_あず": {
-    "level": 81,
+    "level": 83,
     "exp": 186,
-    "attack": 401,
+    "attack": 411,
     "equipment": [
       {
         "name": "竜殺しの ロッド（LR）",
@@ -98915,6 +98954,33 @@
         "critRate": 3.711870202059163,
         "dropRate": 0,
         "addAttackRate": 0.8982884706489985
+      },
+      {
+        "name": "魔導の ダガー（SR）",
+        "rarity": "SR",
+        "rate": 20,
+        "attack": 7,
+        "critRate": 1.215478452700848,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "軽量な ソード（R）",
+        "rarity": "R",
+        "rate": 30,
+        "attack": 4,
+        "critRate": 0,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "鋭い ボウ（R）",
+        "rarity": "R",
+        "rate": 30,
+        "attack": 3,
+        "critRate": 0,
+        "dropRate": 0,
+        "addAttackRate": 0
       }
     ],
     "skills": [
@@ -118966,9 +119032,9 @@
     "servants": []
   },
   "それいけカイパンマン": {
-    "level": 58,
-    "exp": 450,
-    "attack": 115,
+    "level": 82,
+    "exp": 490,
+    "attack": 163,
     "equipment": [
       {
         "name": "頑丈な アックス（R）",
@@ -119020,6 +119086,24 @@
         "rarity": "R",
         "rate": 30,
         "attack": 5,
+        "critRate": 0,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "英雄の ロッド（LR）",
+        "rarity": "LR",
+        "rate": 2,
+        "attack": 20,
+        "critRate": 2.528992186976816,
+        "dropRate": 0,
+        "addAttackRate": 1.1885483363435139
+      },
+      {
+        "name": "錆びた ソード（N）",
+        "rarity": "N",
+        "rate": 40,
+        "attack": 1,
         "critRate": 0,
         "dropRate": 0,
         "addAttackRate": 0
@@ -121670,6 +121754,13 @@
         "name": "閃光の一撃",
         "effect": "クリティカル率＋1%",
         "critRate": 1,
+        "rate": 7.5
+      },
+      {
+        "rarity": "SR",
+        "name": "ひらめきの瞬間",
+        "effect": "経験値クリティカル＋1%",
+        "expCrit": 1,
         "rate": 7.5
       }
     ],
@@ -130292,9 +130383,9 @@
     ]
   },
   "ひとみぃ": {
-    "level": 67,
-    "exp": 69,
-    "attack": 331,
+    "level": 84,
+    "exp": 336,
+    "attack": 416,
     "equipment": [
       {
         "name": "鋭い ボウ（R）",
@@ -130347,6 +130438,33 @@
         "rate": 20,
         "attack": 8,
         "critRate": 0.7142054803055912,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "軽量な ソード（R）",
+        "rarity": "R",
+        "rate": 30,
+        "attack": 4,
+        "critRate": 0,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "鋭い ダガー（R）",
+        "rarity": "R",
+        "rate": 30,
+        "attack": 5,
+        "critRate": 0,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "迅速な ボウ（SR）",
+        "rarity": "SR",
+        "rate": 20,
+        "attack": 6,
+        "critRate": 1.339970015195558,
         "dropRate": 0,
         "addAttackRate": 0
       }
@@ -134201,6 +134319,13 @@
         "effect": "攻撃＋2",
         "attack": 2,
         "rate": 17.5
+      },
+      {
+        "rarity": "UR",
+        "name": "知恵の結晶",
+        "effect": "経験値ボーナス＋10",
+        "expBonus": 10,
+        "rate": 1.5
       },
       {
         "rarity": "UR",
@@ -139752,9 +139877,9 @@
     ]
   },
   "空猫_": {
-    "level": 115,
-    "exp": 402,
-    "attack": 229,
+    "level": 116,
+    "exp": 537,
+    "attack": 231,
     "equipment": [
       {
         "name": "古びた ボウ（N）",
@@ -146328,9 +146453,9 @@
     "servants": []
   },
   "tyotyot": {
-    "level": 21,
-    "exp": 66,
-    "attack": 61,
+    "level": 24,
+    "exp": 128,
+    "attack": 70,
     "equipment": [
       {
         "name": "魔導の アックス（SR）",
@@ -157867,7 +157992,7 @@
   },
   "漆黒のふー": {
     "level": 108,
-    "exp": 257,
+    "exp": 965,
     "attack": 215,
     "equipment": [
       {
@@ -160749,7 +160874,7 @@
   },
   "kimpatsu55": {
     "level": 80,
-    "exp": 123,
+    "exp": 585,
     "attack": 80,
     "equipment": [
       {
@@ -162338,9 +162463,9 @@
     ]
   },
   "massansa": {
-    "level": 132,
-    "exp": 569,
-    "attack": 263,
+    "level": 133,
+    "exp": 9,
+    "attack": 265,
     "equipment": [
       {
         "name": "竜殺しの ロッド（LR）",
@@ -162386,6 +162511,15 @@
         "critRate": 2.567104595449745,
         "dropRate": 0,
         "addAttackRate": 1.3133117488362476
+      },
+      {
+        "name": "鉄の アックス（N）",
+        "rarity": "N",
+        "rate": 40,
+        "attack": 1,
+        "critRate": 0,
+        "dropRate": 0,
+        "addAttackRate": 0
       }
     ],
     "skills": [
@@ -165901,9 +166035,9 @@
     "servants": []
   },
   "tmgw50": {
-    "level": 1,
-    "exp": 0,
-    "attack": 1,
+    "level": 8,
+    "exp": 66,
+    "attack": 15,
     "equipment": [],
     "skills": [
       {
@@ -169322,9 +169456,9 @@
     "servants": []
   },
   "hirohiro110": {
-    "level": 139,
-    "exp": 626,
-    "attack": 277,
+    "level": 140,
+    "exp": 41,
+    "attack": 279,
     "equipment": [
       {
         "name": "軽量な ボウ（R）",
@@ -169388,6 +169522,15 @@
         "critRate": 2.5841900470472354,
         "dropRate": 0,
         "addAttackRate": 1.178535011616509
+      },
+      {
+        "name": "魔導の ランス（SR）",
+        "rarity": "SR",
+        "rate": 20,
+        "attack": 6,
+        "critRate": 1.2201866750561174,
+        "dropRate": 0,
+        "addAttackRate": 0
       }
     ],
     "skills": [
@@ -170875,137 +171018,10 @@
     ]
   },
   "nagetty": {
-    "level": 188,
-    "exp": 122,
-    "attack": 188,
-    "equipment": [
-      {
-        "name": "錆びた ボウ（N）",
-        "rarity": "N",
-        "rate": 40,
-        "attack": 2,
-        "critRate": 0,
-        "dropRate": 0,
-        "addAttackRate": 0
-      },
-      {
-        "name": "英雄の ダガー（LR）",
-        "rarity": "LR",
-        "rate": 2,
-        "attack": 19,
-        "critRate": 3.2778484113796758,
-        "dropRate": 0,
-        "addAttackRate": 0.7332661369276118
-      },
-      {
-        "name": "錆びた ロッド（N）",
-        "rarity": "N",
-        "rate": 40,
-        "attack": 2,
-        "critRate": 0,
-        "dropRate": 0,
-        "addAttackRate": 0
-      },
-      {
-        "name": "頑丈な アックス（R）",
-        "rarity": "R",
-        "rate": 30,
-        "attack": 5,
-        "critRate": 0,
-        "dropRate": 0,
-        "addAttackRate": 0
-      },
-      {
-        "name": "伝説の ランス（LR）",
-        "rarity": "LR",
-        "rate": 2,
-        "attack": 20,
-        "critRate": 3.6822348617711875,
-        "dropRate": 0,
-        "addAttackRate": 0.7551650292074205
-      },
-      {
-        "name": "竜殺しの ダガー（LR）",
-        "rarity": "LR",
-        "rate": 2,
-        "attack": 19,
-        "critRate": 2.463944953527643,
-        "dropRate": 0,
-        "addAttackRate": 0.6248533248265971
-      },
-      {
-        "name": "精製された ダガー（SR）",
-        "rarity": "SR",
-        "rate": 20,
-        "attack": 7,
-        "critRate": 0.9529250395572822,
-        "dropRate": 0,
-        "addAttackRate": 0
-      },
-      {
-        "name": "英雄の アックス（LR）",
-        "rarity": "LR",
-        "rate": 2,
-        "attack": 18,
-        "critRate": 2.3773245668720886,
-        "dropRate": 0,
-        "addAttackRate": 0.5514039585084045
-      },
-      {
-        "name": "伝説の ボウ（LR）",
-        "rarity": "LR",
-        "rate": 2,
-        "attack": 18,
-        "critRate": 2.264424402875368,
-        "dropRate": 0,
-        "addAttackRate": 1.0086421001100332
-      },
-      {
-        "name": "竜殺しの ロッド（LR）",
-        "rarity": "LR",
-        "rate": 2,
-        "attack": 18,
-        "critRate": 3.5687632461303083,
-        "dropRate": 0,
-        "addAttackRate": 1.3356068779176158
-      },
-      {
-        "name": "英雄の ダガー（LR）",
-        "rarity": "LR",
-        "rate": 2,
-        "attack": 16,
-        "critRate": 2.786371421328398,
-        "dropRate": 0,
-        "addAttackRate": 1.0710004275151097
-      },
-      {
-        "name": "精製された アックス（SR）",
-        "rarity": "SR",
-        "rate": 20,
-        "attack": 6,
-        "critRate": 0.6849040157466808,
-        "dropRate": 0,
-        "addAttackRate": 0
-      },
-      {
-        "name": "鉄の ボウ（N）",
-        "rarity": "N",
-        "rate": 40,
-        "attack": 2,
-        "critRate": 0,
-        "dropRate": 0,
-        "addAttackRate": 0
-      },
-      {
-        "name": "迅速な ランス（SR）",
-        "rarity": "SR",
-        "rate": 20,
-        "attack": 6,
-        "critRate": 1.192724820071724,
-        "dropRate": 0,
-        "addAttackRate": 0
-      }
-    ],
+    "level": 1,
+    "exp": 0,
+    "attack": 1,
+    "equipment": [],
     "skills": [
       {
         "rarity": "N",
@@ -172924,10 +172940,17 @@
         "effect": "経験値ボーナス＋2",
         "expBonus": 2,
         "rate": 17.5
+      },
+      {
+        "rarity": "N",
+        "name": "斬撃の心得",
+        "effect": "攻撃＋1",
+        "attack": 1,
+        "rate": 21
       }
     ],
-    "prestigeCount": 17,
-    "dragonHP": 1800,
+    "prestigeCount": 18,
+    "dragonHP": 1900,
     "cooldowns": {
       "slime": 0,
       "skeleton": 0
@@ -172941,7 +172964,7 @@
   },
   "norakuma1010": {
     "level": 149,
-    "exp": 742,
+    "exp": 1466,
     "attack": 297,
     "equipment": [
       {
@@ -173003,6 +173026,15 @@
         "rarity": "N",
         "rate": 40,
         "attack": 1,
+        "critRate": 0,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "古びた ソード（N）",
+        "rarity": "N",
+        "rate": 40,
+        "attack": 2,
         "critRate": 0,
         "dropRate": 0,
         "addAttackRate": 0
@@ -175109,7 +175141,7 @@
       "slime": 0,
       "skeleton": 0
     },
-    "maxAttack": 691,
+    "maxAttack": 693,
     "maxDamage": 1736,
     "servants": [
       "スケルトン",
@@ -186107,7 +186139,7 @@
   },
   "yutanpo263": {
     "level": 197,
-    "exp": 66,
+    "exp": 460,
     "attack": 589,
     "equipment": [
       {
@@ -196309,9 +196341,9 @@
     "servants": []
   },
   "田中スラッカー": {
-    "level": 94,
-    "exp": 343,
-    "attack": 373,
+    "level": 95,
+    "exp": 316,
+    "attack": 377,
     "equipment": [
       {
         "name": "古びた ダガー（N）",
@@ -199341,9 +199373,9 @@
     "maxDamage": 802
   },
   "まるもち": {
-    "level": 148,
-    "exp": 480,
-    "attack": 589,
+    "level": 150,
+    "exp": 110,
+    "attack": 597,
     "equipment": [
       {
         "name": "迅速な ダガー（SR）",
@@ -199432,6 +199464,24 @@
         "rate": 40,
         "attack": 2,
         "critRate": 0,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "古びた ソード（N）",
+        "rarity": "N",
+        "rate": 40,
+        "attack": 2,
+        "critRate": 0,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "迅速な ランス（SR）",
+        "rarity": "SR",
+        "rate": 20,
+        "attack": 7,
+        "critRate": 1.0022285927690278,
         "dropRate": 0,
         "addAttackRate": 0
       }
@@ -209047,9 +209097,9 @@
     "servants": []
   },
   "sachihana": {
-    "level": 126,
-    "exp": 1185,
-    "attack": 251,
+    "level": 127,
+    "exp": 219,
+    "attack": 253,
     "equipment": [
       {
         "name": "鋭い ボウ（R）",
@@ -210864,13 +210914,13 @@
       "slime": 0,
       "skeleton": 0
     },
-    "maxAttack": 533,
+    "maxAttack": 535,
     "maxDamage": 1640,
     "servants": []
   },
   "konoue0721": {
     "level": 90,
-    "exp": 75,
+    "exp": 721,
     "attack": 357,
     "equipment": [
       {
@@ -210897,6 +210947,15 @@
         "rate": 20,
         "attack": 6,
         "critRate": 0.7878264144982209,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "錆びた ダガー（N）",
+        "rarity": "N",
+        "rate": 40,
+        "attack": 2,
+        "critRate": 0,
         "dropRate": 0,
         "addAttackRate": 0
       }
@@ -215845,7 +215904,7 @@
   },
   "user2626_": {
     "level": 273,
-    "exp": 579,
+    "exp": 1301,
     "attack": 273,
     "equipment": [
       {
@@ -224149,9 +224208,9 @@
     "maxDamage": 0
   },
   "milkofteaw": {
-    "level": 184,
-    "exp": 1649,
-    "attack": 550,
+    "level": 185,
+    "exp": 26,
+    "attack": 553,
     "equipment": [
       {
         "name": "伝説の ランス（LR）",
@@ -224303,6 +224362,15 @@
         "rate": 20,
         "attack": 6,
         "critRate": 1.4675440865062712,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "精製された ボウ（SR）",
+        "rarity": "SR",
+        "rate": 20,
+        "attack": 6,
+        "critRate": 0.868371214884716,
         "dropRate": 0,
         "addAttackRate": 0
       }
@@ -226571,7 +226639,7 @@
   },
   "dodonnpa_1212": {
     "level": 127,
-    "exp": 1033,
+    "exp": 1151,
     "attack": 127,
     "equipment": [
       {
@@ -232953,9 +233021,9 @@
     "dragonHP": 100
   },
   "こんぷ": {
-    "level": 145,
-    "exp": 1066,
-    "attack": 457,
+    "level": 146,
+    "exp": 250,
+    "attack": 461,
     "equipment": [
       {
         "name": "古びた ボウ（N）",
@@ -252370,9 +252438,9 @@
     "maxDamage": 0
   },
   "メルエム": {
-    "level": 215,
-    "exp": 82,
-    "attack": 1285,
+    "level": 216,
+    "exp": 1092,
+    "attack": 1291,
     "equipment": [
       {
         "name": "竜殺しの アックス（LR）",
@@ -252506,6 +252574,15 @@
         "rate": 20,
         "attack": 9,
         "critRate": 1.1385529025525796,
+        "dropRate": 0,
+        "addAttackRate": 0
+      },
+      {
+        "name": "古びた ソード（N）",
+        "rarity": "N",
+        "rate": 40,
+        "attack": 2,
+        "critRate": 0,
         "dropRate": 0,
         "addAttackRate": 0
       }
@@ -255682,7 +255759,7 @@
       "slime": 0,
       "skeleton": 0
     },
-    "maxAttack": 1794,
+    "maxAttack": 1802,
     "maxDamage": 5552,
     "servants": [
       "レアスケルトン",
@@ -270392,7 +270469,7 @@
   },
   "184初見": {
     "level": 131,
-    "exp": 543,
+    "exp": 793,
     "attack": 132,
     "equipment": [
       {
@@ -273621,7 +273698,7 @@
   },
   "hydro678": {
     "level": 133,
-    "exp": 116,
+    "exp": 334,
     "attack": 265,
     "equipment": [
       {
